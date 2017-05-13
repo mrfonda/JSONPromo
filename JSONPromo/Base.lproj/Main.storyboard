@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,10 +12,10 @@
         <scene sceneID="NxA-mw-yQd">
             <objects>
                 <collectionViewController id="U7F-EZ-yyn" customClass="CollectionViewController" customModule="JSONPromo" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" restorationIdentifier="PromotionsView" dataMode="prototypes" id="IUa-gG-7JV">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" restorationIdentifier="PromotionsView" dataMode="prototypes" id="IUa-gG-7JV">
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.25098040700000002" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="WkG-A4-s0Q">
                             <size key="itemSize" width="50" height="50"/>
                             <size key="headerReferenceSize" width="50" height="20"/>
@@ -105,7 +104,7 @@
                                 </connections>
                             </collectionViewCell>
                         </cells>
-                        <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SectionHeader" id="t0V-hU-ZSD" customClass="SectionHeaderCollectionReusableView" customModule="JSONPromo" customModuleProvider="target">
+                        <collectionReusableView key="sectionHeaderView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SectionHeader" id="t0V-hU-ZSD" customClass="SectionHeaderCollectionReusableView" customModule="JSONPromo" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <subviews>
@@ -116,7 +115,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
-                            <color key="backgroundColor" red="0.19415530562400818" green="0.052549019455909729" blue="0.19869065284729004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstItem="Jji-oA-sry" firstAttribute="centerX" secondItem="t0V-hU-ZSD" secondAttribute="centerX" id="J0w-hJ-axU"/>
                                 <constraint firstItem="Jji-oA-sry" firstAttribute="centerY" secondItem="t0V-hU-ZSD" secondAttribute="centerY" id="cXD-mc-hKp"/>
@@ -141,7 +140,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9tW-vj-Jwe" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="h6Q-wn-FaR">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" translucent="NO" id="h6Q-wn-FaR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textAttributes key="titleTextAttributes">

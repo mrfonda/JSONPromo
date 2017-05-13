@@ -12,9 +12,5 @@ class PairCollectionViewCell: UICollectionViewCell {
 
   @IBOutlet weak var imageRight: UIImageView!
   @IBOutlet weak var imageLeft: UIImageView!
-//    override func awakeFromNib() {
-//        super.awakeFromNib()
-//        // Initialization code
-//    }
 
 }

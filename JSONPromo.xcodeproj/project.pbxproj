@@ -165,7 +165,6 @@
 			isa = PBXGroup;
 			children = (
 				76A49EE41EC48F9400382CC3 /* AppDelegate.swift */,
-				76A49EEB1EC48F9400382CC3 /* Assets.xcassets */,
 				76A49EF01EC48F9400382CC3 /* Info.plist */,
 			);
 			name = Application;
@@ -215,6 +214,7 @@
 		76A49F301EC763F000382CC3 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				76A49EEB1EC48F9400382CC3 /* Assets.xcassets */,
 				76A49F281EC4A1F200382CC3 /* bad.json */,
 			);
 			name = Resources;

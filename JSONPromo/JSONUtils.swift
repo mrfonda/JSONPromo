@@ -104,7 +104,6 @@ class JSONUtils {
         }
       }
     }
-    //let vari = ["header": goodHeaders, "single_promo" : singlePromo ]
     var goodJSON: [String: Any] = ["header": goodHeaders]
     
     if !singlePromo.isEmpty {

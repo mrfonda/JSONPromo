@@ -14,6 +14,9 @@ private let singleIdentifier = "SingleCell"
 private let pairIdentifier = "PairCell"
 
 class CollectionViewController: UICollectionViewController {
+  
+  //MARK: - Variables
+  
   let realm = try! Realm()
   var promotions: Promotions {
     get {
@@ -30,38 +33,14 @@ class CollectionViewController: UICollectionViewController {
     case content = 3
   }
   
+  //MARK: - Lifecycle
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    
-    // Uncomment the following line to preserve selection between presentations
-    // self.clearsSelectionOnViewWillAppear = false
-    
-    // Register cell classes
-    //self.collectionView!.register(SingleCollectionViewCell.self, forCellWithReuseIdentifier: singleIdentifier)
     collectionView?.autoresizesSubviews = true
     self.collectionView!.register(UINib(nibName: "PairCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: pairIdentifier)
-    
-    // Do any additional setup after loading the view.
+
   }
-  
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
-  }
-  
-  /*
-   // MARK: - Navigation
-   
-   // In a storyboard-based application, you will often want to do a little preparation before navigation
-   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-   // Get the new view controller using [segue destinationViewController].
-   // Pass the selected object to the new view controller.
-   }
-   */
-  
-  
   
   // MARK: UICollectionViewDataSource
   
@@ -73,34 +52,6 @@ class CollectionViewController: UICollectionViewController {
     default:
       return Sections.count
     }
-  }
-  
-  override func collectionView(_ collectionView: UICollectionView,
-                               viewForSupplementaryElementOfKind kind: String,
-                               at indexPath: IndexPath) -> UICollectionReusableView {
-    if kind == UICollectionElementKindSectionHeader {
-      //3
-      let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                       withReuseIdentifier: "SectionHeader",
-                                                                       for: indexPath) as! SectionHeaderCollectionReusableView
-      let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
-      layout?.sectionHeadersPinToVisibleBounds = true
-      
-      let sect = Sections(rawValue: indexPath.section)!
-      switch sect {
-      case .header:
-        headerView.title.text = "Header".uppercased()
-      case .single:
-        headerView.title.text = "Single".uppercased()
-      case .pair:
-        headerView.title.text = "Pair".uppercased()
-      case .content:
-        headerView.title.text = "Content".uppercased()
-      }
-      
-      return headerView
-    }
-    return UICollectionReusableView()
   }
   
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -128,7 +79,7 @@ class CollectionViewController: UICollectionViewController {
     switch collectionView.restorationIdentifier ?? "" {
     case "PromotionsHeaderView":
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: singleIdentifier, for: indexPath) as! SingleCollectionViewCell
-      cell.imageView.image = nil
+      cell.imageView.image = #imageLiteral(resourceName: "Picture")
       cell.layer.cornerRadius = 2
       cell.layer.masksToBounds = true
       cell.frame.size.height = collectionView.frame.height
@@ -145,7 +96,7 @@ class CollectionViewController: UICollectionViewController {
         return cell
       case .single:
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: singleIdentifier, for: indexPath) as! SingleCollectionViewCell
-        cell.imageView.image = nil
+        cell.imageView.image = #imageLiteral(resourceName: "Picture")
         cell.layer.cornerRadius = 10
         cell.layer.masksToBounds = true
         Nuke.loadImage(with: URL(string: promotions.single[indexPath.row].image_url)!,
@@ -156,8 +107,8 @@ class CollectionViewController: UICollectionViewController {
         cell.layer.cornerRadius = 10
         cell.layer.masksToBounds = true
         
-        cell.imageLeft.image = nil
-        cell.imageRight.image = nil
+        cell.imageLeft.image = #imageLiteral(resourceName: "Picture")
+        cell.imageRight.image = #imageLiteral(resourceName: "Picture")
         let index = indexPath.row * 2
         
         Nuke.loadImage(with: URL(string: promotions.pair[index].image_url)!,
@@ -169,7 +120,7 @@ class CollectionViewController: UICollectionViewController {
         return cell
       case .content:
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: singleIdentifier, for: indexPath) as! SingleCollectionViewCell
-        cell.imageView.image = nil
+        cell.imageView.image = #imageLiteral(resourceName: "Picture")
         cell.layer.cornerRadius = 10
         cell.layer.masksToBounds = true
         Nuke.loadImage(with: URL(string: promotions.content[indexPath.row].image_url)!,
@@ -180,7 +131,36 @@ class CollectionViewController: UICollectionViewController {
     }
   }
   
+  override func collectionView(_ collectionView: UICollectionView,
+                               viewForSupplementaryElementOfKind kind: String,
+                               at indexPath: IndexPath) -> UICollectionReusableView {
+    if kind == UICollectionElementKindSectionHeader {
+
+      let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                       withReuseIdentifier: "SectionHeader",
+                                                                       for: indexPath) as! SectionHeaderCollectionReusableView
+      let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
+      layout?.sectionHeadersPinToVisibleBounds = true
+      
+      let sect = Sections(rawValue: indexPath.section)!
+      switch sect {
+      case .header:
+        headerView.title.text = "Header".uppercased()
+      case .single:
+        headerView.title.text = "Single".uppercased()
+      case .pair:
+        headerView.title.text = "Pair".uppercased()
+      case .content:
+        headerView.title.text = "Content".uppercased()
+      }
+      
+      return headerView
+    }
+    return UICollectionReusableView()
+  }
 }
+
+//MARK: - FlowLayout
 
 extension CollectionViewController : UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -196,15 +176,18 @@ extension CollectionViewController : UICollectionViewDelegateFlowLayout {
       let sect = Sections(rawValue: indexPath.section)!
       switch sect {
       case .header:
-        return CGSize(width: screenWidth, height: scaleFactor/4)
+        return CGSize(width: screenWidth, height: scaleFactor/3)
       default:
-        return CGSize(width: screenWidth - 20, height: scaleFactor/4)
+        return CGSize(width: screenWidth - 20, height: scaleFactor/3)
       }
       
     }
   }
   
 }
+
+//MARK: - enum extension
+
 protocol CaseCountable: RawRepresentable {}
 extension CaseCountable where RawValue == Int {
   static var count: RawValue {
