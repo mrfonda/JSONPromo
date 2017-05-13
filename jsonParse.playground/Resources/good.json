@@ -1,0 +1,154 @@
+{
+"header":[
+{
+"image_url":"https://storage.googleapis.com/shared_data/MKGn299XpJ6mn9c6/images/homepage/superdrug_homepage/superdrug_header_3.jpg",
+"cat_id":"9167"
+},
+{
+"image_url":"https://storage.googleapis.com/shared_data/MKGn299XpJ6mn9c6/images/homepage/superdrug_homepage/superdrug_header_5.jpg",
+"cat_id":"9669"
+},
+{
+"image_url":"https://storage.googleapis.com/shared_data/MKGn299XpJ6mn9c6/images/homepage/superdrug_homepage/superdrug_header_6.jpg",
+"cat_id":"9058"
+},
+{
+"image_url":"https://storage.googleapis.com/shared_data/MKGn299XpJ6mn9c6/images/homepage/superdrug_homepage/superdrug_header_7.jpg",
+"cat_id":"9250"
+},
+{
+"image_url":"https://storage.googleapis.com/shared_data/MKGn299XpJ6mn9c6/images/homepage/superdrug_homepage/superdrug_header_8.jpg",
+"cat_id":"8284"
+}
+],
+"pair_promo":[
+{
+"image_url":"https://storage.googleapis.com/shared_data/MKGn299XpJ6mn9c6/images/homepage/superdrug_homepage/superdrug_pair_promo_1.jpg",
+"cat_id":"9009"
+},
+{
+"image_url":"https://storage.googleapis.com/shared_data/MKGn299XpJ6mn9c6/images/homepage/superdrug_homepage/superdrug_pair_promo_2.jpg",
+"cat_id":"9338"
+},
+{
+"image_url":"https://storage.googleapis.com/shared_data/MKGn299XpJ6mn9c6/images/homepage/superdrug_homepage/superdrug_pair_promo_3.jpg",
+"cat_id":"316"
+},
+{
+"image_url":"https://storage.googleapis.com/shared_data/MKGn299XpJ6mn9c6/images/homepage/superdrug_homepage/superdrug_pair_promo_4.jpg",
+"cat_id":"86"
+}
+],
+"single_promo":[
+{
+"image_url":"https://storage.googleapis.com/shared_data/MKGn299XpJ6mn9c6/images/homepage/superdrug_homepage/superdrug_single_promo_1.jpg",
+"cat_id":"9132"
+},
+{
+"image_url":"https://storage.googleapis.com/shared_data/MKGn299XpJ6mn9c6/images/homepage/superdrug_homepage/superdrug_single_promo_2.jpg",
+"cat_id":"392"
+},
+{
+"image_url":"https://storage.googleapis.com/shared_data/MKGn299XpJ6mn9c6/images/homepage/superdrug_homepage/superdrug_single_promo_3.jpg",
+"cat_id":"9004"
+}
+],
+"content_promo":[
+{
+"image_url":"https://storage.googleapis.com/shared_data/MKGn299XpJ6mn9c6/images/homepage/superdrug_homepage/superdrug_content_promo_1.jpg",
+"promo_text":"How to Handle Stress During Christmas",
+"link":"http://www.superdrug.com/blog/ask-the-experts/handle-stress-christmas"
+},
+{
+"image_url":"https://storage.googleapis.com/shared_data/MKGn299XpJ6mn9c6/images/homepage/superdrug_homepage/superdrug_content_promo_2.jpg",
+"promo_text":"How to: Christmas Party Hair",
+"link":"http://www.superdrug.com/blog/tutorials/christmas-party-hair"
+},
+{
+"image_url":"https://storage.googleapis.com/shared_data/MKGn299XpJ6mn9c6/images/homepage/superdrug_homepage/superdrug_content_promo_3.jpg",
+"promo_text":"The best Christmas gift sets",
+"link":"http://www.superdrug.com/blog/superdrug-loves/beauty-bloggers-christmas-gift-sets"
+}
+],
+"location":[
+{
+"data":[
+
+]
+}
+],
+"bestsellers":[
+{
+"product_id":118553,
+"product_brand":"Gucci",
+"product_name":"Guilty Black",
+"product_desc":"Eau De Toilette 50ml",
+"currency":"Â£",
+"price":29,
+"old_price":49,
+"save":29,
+"promo_text":"DEAL OF THE WEEK",
+"promo_color":"#E10B2C"
+},
+{
+"product_id":118734,
+"product_brand":"Lacoste",
+"product_name":"Touch of Pink",
+"product_desc":"Eau De Toilette 90ml",
+"currency":"Â£",
+"price":30,
+"old_price":56,
+"save":26,
+"promo_text":"ONLINE EXCLUSIVE",
+"promo_color":"#000000"
+},
+{
+"product_id":117475,
+"product_brand":"DKNY",
+"product_name":"Summer",
+"product_desc":"for Women 100ml",
+"currency":"Â£",
+"price":20,
+"old_price":44,
+"save":24,
+"promo_text":"DEAL OF THE WEEK",
+"promo_color":"#E10B2C"
+},
+{
+"product_id":116993,
+"product_brand":"Elizabeth Arden",
+"product_name":"Mediterranean",
+"product_desc":"Eau de Parfum 100ml",
+"currency":"Â£",
+"price":18,
+"old_price":40,
+"save":22,
+"promo_text":"ONLINE EXCLUSIVE",
+"promo_color":"#000000"
+},
+{
+"product_id":117111,
+"product_brand":"Vera Wang",
+"product_name":"Lovestruck",
+"product_desc":"Eau de Parfum 100ml",
+"currency":"Â£",
+"price":25,
+"old_price":58,
+"save":23,
+"promo_text":"DEAL OF THE WEEK",
+"promo_color":"#E10B2C"
+},
+{
+"product_id":121106,
+"product_brand":"HUGO",
+"product_name":"Deep Red",
+"product_desc":"Eau de Parfum 90ml",
+"currency":"Â£",
+"price":30,
+"old_price":60,
+"save":30,
+"promo_text":"ONLINE EXCLUSIVE",
+"promo_color":"#000000"
+}
+]
+}
