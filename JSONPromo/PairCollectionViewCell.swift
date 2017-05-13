@@ -10,9 +10,11 @@ import UIKit
 
 class PairCollectionViewCell: UICollectionViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
+  @IBOutlet weak var imageRight: UIImageView!
+  @IBOutlet weak var imageLeft: UIImageView!
+//    override func awakeFromNib() {
+//        super.awakeFromNib()
+//        // Initialization code
+//    }
 
 }

@@ -1,26 +1,160 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9tW-vj-Jwe">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <!--PROMOTIONS-->
+        <scene sceneID="NxA-mw-yQd">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                <collectionViewController id="U7F-EZ-yyn" customClass="CollectionViewController" customModule="JSONPromo" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" restorationIdentifier="PromotionsView" dataMode="prototypes" id="IUa-gG-7JV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                        <color key="backgroundColor" red="0.25098040700000002" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="WkG-A4-s0Q">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="50" height="10"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="HeaderCell" id="0Mt-Om-bU6" userLabel="HeaderCell" customClass="HeaderCollectionViewCell" customModule="JSONPromo" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="10" width="375" height="99"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="99"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" restorationIdentifier="PromotionsHeaderView" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="VDH-de-Sdg">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="99"/>
+                                            <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Wwl-up-xNH">
+                                                <size key="itemSize" width="329" height="98"/>
+                                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                            </collectionViewFlowLayout>
+                                            <cells>
+                                                <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" reuseIdentifier="SingleCell" id="58W-Zp-5yo" customClass="SingleCollectionViewCell" customModule="JSONPromo">
+                                                    <rect key="frame" x="0.0" y="0.5" width="329" height="98"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                                        <rect key="frame" x="0.0" y="0.0" width="329" height="98"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <subviews>
+                                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="T3t-ea-f01">
+                                                                <rect key="frame" x="0.0" y="-0.5" width="329" height="98"/>
+                                                            </imageView>
+                                                        </subviews>
+                                                    </view>
+                                                    <constraints>
+                                                        <constraint firstItem="T3t-ea-f01" firstAttribute="width" secondItem="58W-Zp-5yo" secondAttribute="width" id="0RU-0C-leB"/>
+                                                        <constraint firstItem="T3t-ea-f01" firstAttribute="centerY" secondItem="58W-Zp-5yo" secondAttribute="centerY" id="HWh-Qx-lkh"/>
+                                                        <constraint firstItem="T3t-ea-f01" firstAttribute="height" secondItem="58W-Zp-5yo" secondAttribute="height" id="Ue5-Aw-PLG"/>
+                                                        <constraint firstItem="T3t-ea-f01" firstAttribute="centerX" secondItem="58W-Zp-5yo" secondAttribute="centerX" id="a9T-iD-UG8"/>
+                                                    </constraints>
+                                                    <connections>
+                                                        <outlet property="imageView" destination="T3t-ea-f01" id="cRL-Tx-SW0"/>
+                                                    </connections>
+                                                </collectionViewCell>
+                                            </cells>
+                                            <connections>
+                                                <outlet property="dataSource" destination="U7F-EZ-yyn" id="7IJ-Om-l40"/>
+                                                <outlet property="delegate" destination="U7F-EZ-yyn" id="EqO-t4-G0m"/>
+                                            </connections>
+                                        </collectionView>
+                                    </subviews>
+                                </view>
+                                <constraints>
+                                    <constraint firstItem="VDH-de-Sdg" firstAttribute="width" secondItem="0Mt-Om-bU6" secondAttribute="width" id="ETf-NE-GTr"/>
+                                    <constraint firstItem="VDH-de-Sdg" firstAttribute="centerX" secondItem="0Mt-Om-bU6" secondAttribute="centerX" id="WaC-oK-Mtv"/>
+                                    <constraint firstItem="VDH-de-Sdg" firstAttribute="centerY" secondItem="0Mt-Om-bU6" secondAttribute="centerY" id="YrN-jR-m9q"/>
+                                    <constraint firstItem="VDH-de-Sdg" firstAttribute="height" secondItem="0Mt-Om-bU6" secondAttribute="height" id="fsb-Aw-36p"/>
+                                </constraints>
+                                <size key="customSize" width="375" height="99"/>
+                                <connections>
+                                    <outlet property="collectionView" destination="VDH-de-Sdg" id="fa4-w0-lQm"/>
+                                </connections>
+                            </collectionViewCell>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SingleCell" id="FIy-oQ-hAS" customClass="SingleCollectionViewCell" customModule="JSONPromo">
+                                <rect key="frame" x="162.5" y="119" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ggp-EA-wdX">
+                                            <rect key="frame" x="0.5" y="0.0" width="50" height="50"/>
+                                        </imageView>
+                                    </subviews>
+                                </view>
+                                <constraints>
+                                    <constraint firstItem="Ggp-EA-wdX" firstAttribute="centerX" secondItem="FIy-oQ-hAS" secondAttribute="centerX" id="7S1-rZ-tHA"/>
+                                    <constraint firstItem="Ggp-EA-wdX" firstAttribute="centerY" secondItem="FIy-oQ-hAS" secondAttribute="centerY" id="fBI-sw-IGA"/>
+                                    <constraint firstItem="Ggp-EA-wdX" firstAttribute="height" secondItem="FIy-oQ-hAS" secondAttribute="height" id="ks4-Ro-TZY"/>
+                                    <constraint firstItem="Ggp-EA-wdX" firstAttribute="width" secondItem="FIy-oQ-hAS" secondAttribute="width" id="qxV-l6-nzR"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="imageView" destination="Ggp-EA-wdX" id="1Jr-hx-Hcg"/>
+                                </connections>
+                            </collectionViewCell>
+                        </cells>
+                        <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SectionHeader" id="t0V-hU-ZSD" customClass="SectionHeaderCollectionReusableView" customModule="JSONPromo" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="10"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Section title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jji-oA-sry">
+                                    <rect key="frame" x="171.5" y="1" width="32.5" height="8.5"/>
+                                    <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="6"/>
+                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="Jji-oA-sry" firstAttribute="centerX" secondItem="t0V-hU-ZSD" secondAttribute="centerX" id="J0w-hJ-axU"/>
+                                <constraint firstItem="Jji-oA-sry" firstAttribute="centerY" secondItem="t0V-hU-ZSD" secondAttribute="centerY" id="cXD-mc-hKp"/>
+                            </constraints>
+                            <connections>
+                                <outlet property="title" destination="Jji-oA-sry" id="g5N-3G-zQ8"/>
+                            </connections>
+                        </collectionReusableView>
+                        <connections>
+                            <outlet property="dataSource" destination="U7F-EZ-yyn" id="7qz-P0-k01"/>
+                            <outlet property="delegate" destination="U7F-EZ-yyn" id="dLF-Vr-rHX"/>
+                        </connections>
+                    </collectionView>
+                    <navigationItem key="navigationItem" title="PROMOTIONS" id="sWB-rb-pv4"/>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vqC-mU-Baz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="2058.4000000000001" y="-495.20239880059972"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="7cd-7A-l0g">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9tW-vj-Jwe" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="h6Q-wn-FaR">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="U7F-EZ-yyn" kind="relationship" relationship="rootViewController" id="aAm-PA-TAc"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2e5-Eq-tSs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1119.2" y="-495.20239880059972"/>
         </scene>
     </scenes>
 </document>

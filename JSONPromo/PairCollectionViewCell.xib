@@ -1,19 +1,53 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="PairCollectionViewCell" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PairCell" id="gTV-IL-0wX" customClass="PairCollectionViewCell" customModule="JSONPromo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="353" height="289"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                <rect key="frame" x="0.0" y="0.0" width="353" height="289"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WXF-NK-bC1">
+                        <rect key="frame" x="0.0" y="0.0" width="280" height="190"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="si3-Fx-xdN">
+                                <rect key="frame" x="0.0" y="0.0" width="176.5" height="289"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="PairCell" translatesAutoresizingMaskIntoConstraints="NO" id="bgK-6p-yaK">
+                                <rect key="frame" x="176.5" y="0.0" width="176.5" height="289"/>
+                            </imageView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="si3-Fx-xdN" firstAttribute="width" secondItem="WXF-NK-bC1" secondAttribute="width" multiplier="0.5" id="LZ9-yw-RLq"/>
+                            <constraint firstItem="bgK-6p-yaK" firstAttribute="width" secondItem="WXF-NK-bC1" secondAttribute="width" multiplier="0.5" id="zpk-bb-orF"/>
+                        </constraints>
+                    </stackView>
+                </subviews>
             </view>
+            <constraints>
+                <constraint firstItem="WXF-NK-bC1" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="2tb-eC-ywV"/>
+                <constraint firstItem="WXF-NK-bC1" firstAttribute="height" secondItem="gTV-IL-0wX" secondAttribute="height" id="Ryx-dN-7Do"/>
+                <constraint firstItem="WXF-NK-bC1" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="W4v-Ni-AI4"/>
+                <constraint firstItem="WXF-NK-bC1" firstAttribute="width" secondItem="gTV-IL-0wX" secondAttribute="width" id="lvT-NQ-kKc"/>
+            </constraints>
+            <size key="customSize" width="353" height="289"/>
+            <connections>
+                <outlet property="imageLeft" destination="si3-Fx-xdN" id="sXc-0k-EbI"/>
+                <outlet property="imageRight" destination="bgK-6p-yaK" id="4n4-yg-iJX"/>
+            </connections>
+            <point key="canvasLocation" x="86.5" y="57.5"/>
         </collectionViewCell>
     </objects>
 </document>

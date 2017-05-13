@@ -10,4 +10,5 @@ import UIKit
 
 class SectionHeaderCollectionReusableView: UICollectionReusableView {
         
+  @IBOutlet weak var title: UILabel!
 }
