@@ -83,6 +83,8 @@ class CollectionViewController: UICollectionViewController {
       let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                        withReuseIdentifier: "SectionHeader",
                                                                        for: indexPath) as! SectionHeaderCollectionReusableView
+      let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
+      layout?.sectionHeadersPinToVisibleBounds = true
       
       let sect = Sections(rawValue: indexPath.section)!
       switch sect {
@@ -185,6 +187,7 @@ extension CollectionViewController : UICollectionViewDelegateFlowLayout {
     
     let screenWidth = collectionView.bounds.width//UIScreen.main.bounds.width
     let scaleFactor = collectionView.bounds.height //screenWidth
+    
     
     switch collectionView.restorationIdentifier ?? "" {
     case "PromotionsHeaderView":
