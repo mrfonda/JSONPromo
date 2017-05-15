@@ -12,187 +12,279 @@ import Nuke
 
 private let singleIdentifier = "SingleCell"
 private let pairIdentifier = "PairCell"
-
+private let contentIdentifier = "ContentCell"
 class CollectionViewController: UICollectionViewController {
-  
-  //MARK: - Variables
-  
-  let realm = try! Realm()
-  var promotions: Promotions {
-    get {
-      let storedPromotions = realm.objects(Promotions.self)
-      return storedPromotions[0]
-    }
-  }
-  var storedOffsets = [Int: CGFloat]()
-  
-  enum Sections : Int, CaseCountable {
-    case header = 0
-    case single = 1
-    case pair = 2
-    case content = 3
-  }
-  
-  //MARK: - Lifecycle
-  
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    collectionView?.autoresizesSubviews = true
-    self.collectionView!.register(UINib(nibName: "PairCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: pairIdentifier)
+    
+    //MARK: - Variables
+    
+    let realm = try! Realm()
+        
+    var headerNotificationToken: NotificationToken? = nil
+    var singleNotificationToken: NotificationToken? = nil
+    var pairNotificationToken: NotificationToken? = nil
+    var contentNotificationToken: NotificationToken? = nil
+    
+    var promotions: Promotions = Promotions()
 
-  }
-  
-  // MARK: UICollectionViewDataSource
-  
-  override func numberOfSections(in collectionView: UICollectionView) -> Int {
-    // #warning Incomplete implementation, return the number of sections
-    switch collectionView.restorationIdentifier ?? "" {
-    case "PromotionsHeaderView":
-      return 1
-    default:
-      return Sections.count
+    var storedOffsets = [Int: CGFloat]()
+    
+    enum Sections : Int, CaseCountable {
+        case header = 0
+        case single = 1
+        case pair = 2
+        case content = 3
     }
-  }
-  
-  override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    // #warning Incomplete implementation, return the number of items
-    switch collectionView.restorationIdentifier ?? "" {
-    case "PromotionsHeaderView":
-      return promotions.head.count
-    default:
-      let sect = Sections(rawValue: section)!
-      switch sect {
-      case .header:
-        return 1
-      case .single:
-        return promotions.single.count
-      case .pair:
-        return promotions.pair.count/2 + promotions.pair.count % 2
-      case .content:
-        return promotions.content.count
-      }
-      
+    
+    //MARK: - Lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        collectionView?.autoresizesSubviews = true
+        self.collectionView!.register(UINib(nibName: "PairCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: pairIdentifier)
+        
+        // Observe Results Notifications
+        promotions = realm.objects(Promotions.self)[0]
+        singleNotificationToken = promotions.single.registerNotification(collectionView: collectionView, section: Sections.single.rawValue)
+        //pairNotificationToken = promotions.pair.registerNotification(collectionView: collectionView, section: Sections.pair.rawValue)
+        contentNotificationToken = promotions.content.registerNotification(collectionView: collectionView, section: Sections.content.rawValue)
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.refresh, target: self, action: #selector(reparse))
     }
-  }
-  
-  override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    switch collectionView.restorationIdentifier ?? "" {
-    case "PromotionsHeaderView":
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: singleIdentifier, for: indexPath) as! SingleCollectionViewCell
-      cell.imageView.image = #imageLiteral(resourceName: "Picture")
-      cell.layer.cornerRadius = 2
-      cell.layer.masksToBounds = true
-      cell.frame.size.height = collectionView.frame.height
-      Nuke.loadImage(with: URL(string: promotions.head[indexPath.row].image_url)!,
-                     into: cell.imageView)
-      return cell
-    default:
-      let sect = Sections(rawValue: indexPath.section)!
-      switch sect {
-      case .header:
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HeaderCell", for: indexPath) as! HeaderCollectionViewCell
-        
-        cell.setCollectionViewDataSourceDelegate(dataSourceDelegate: self, forRow: indexPath.row)
-        return cell
-      case .single:
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: singleIdentifier, for: indexPath) as! SingleCollectionViewCell
-        cell.imageView.image = #imageLiteral(resourceName: "Picture")
-        cell.layer.cornerRadius = 10
-        cell.layer.masksToBounds = true
-        Nuke.loadImage(with: URL(string: promotions.single[indexPath.row].image_url)!,
-                       into: cell.imageView)
-        return cell
-      case .pair:
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: pairIdentifier, for: indexPath) as! PairCollectionViewCell
-        cell.layer.cornerRadius = 10
-        cell.layer.masksToBounds = true
-        
-        cell.imageLeft.image = #imageLiteral(resourceName: "Picture")
-        cell.imageRight.image = #imageLiteral(resourceName: "Picture")
-        let index = indexPath.row * 2
-        
-        Nuke.loadImage(with: URL(string: promotions.pair[index].image_url)!,
-                       into: cell.imageLeft)
-        if (index + 1) < promotions.pair.count {
-          Nuke.loadImage(with: URL(string: promotions.pair[index + 1].image_url)!,
-                         into: cell.imageRight)
+    
+    deinit {
+        headerNotificationToken?.stop()
+        singleNotificationToken?.stop()
+        pairNotificationToken?.stop()
+        contentNotificationToken?.stop()
+    }
+    
+    //MARK: - UI
+    
+    func reparse() {
+        let promotions = Promotions(JSON: JSONUtils.goodJSON)
+        try! realm.write {
+            realm.add(promotions!, update: true)
         }
-        return cell
-      case .content:
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: singleIdentifier, for: indexPath) as! SingleCollectionViewCell
-        cell.imageView.image = #imageLiteral(resourceName: "Picture")
-        cell.layer.cornerRadius = 10
-        cell.layer.masksToBounds = true
-        Nuke.loadImage(with: URL(string: promotions.content[indexPath.row].image_url)!,
-                       into: cell.imageView)
-        return cell
-      }
-      
     }
-  }
-  
-  override func collectionView(_ collectionView: UICollectionView,
-                               viewForSupplementaryElementOfKind kind: String,
-                               at indexPath: IndexPath) -> UICollectionReusableView {
-    if kind == UICollectionElementKindSectionHeader {
-
-      let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                       withReuseIdentifier: "SectionHeader",
-                                                                       for: indexPath) as! SectionHeaderCollectionReusableView
-      let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
-      layout?.sectionHeadersPinToVisibleBounds = true
-      
-      let sect = Sections(rawValue: indexPath.section)!
-      switch sect {
-      case .header:
-        headerView.title.text = "Header".uppercased()
-      case .single:
-        headerView.title.text = "Single".uppercased()
-      case .pair:
-        headerView.title.text = "Pair".uppercased()
-      case .content:
-        headerView.title.text = "Content".uppercased()
-      }
-      
-      return headerView
+    
+    //MARK: - UICollectionViewDataSource
+    
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        switch collectionView.restorationIdentifier ?? "" {
+        case "PromotionsHeaderView":
+            
+            return 1
+        default:
+            return Sections.count
+        }
     }
-    return UICollectionReusableView()
-  }
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of items
+        switch collectionView.restorationIdentifier ?? "" {
+        case "PromotionsHeaderView":
+            return promotions.head.count
+        default:
+            let sect = Sections(rawValue: section)!
+            switch sect {
+            case .header:
+                return 1
+            case .single:
+                return promotions.single.count
+            case .pair:
+                return promotions.pair.count/2 + promotions.pair.count % 2
+            case .content:
+                return promotions.content.count
+            }
+        }
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        switch collectionView.restorationIdentifier ?? "" {
+        case "PromotionsHeaderView":
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: singleIdentifier, for: indexPath) as! SingleCollectionViewCell
+            cell.promo = promotions.head[indexPath.row]
+            return cell
+        default:
+            let sect = Sections(rawValue: indexPath.section)!
+            switch sect {
+            case .header:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HeaderCell", for: indexPath) as! HeaderCollectionViewCell
+                cell.setCollectionViewDataSourceDelegate(dataSourceDelegate: self, forRow: indexPath.row)
+                cell.promotions = promotions.head
+                return cell
+            case .single:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: singleIdentifier, for: indexPath) as! SingleCollectionViewCell
+                cell.promo = promotions.single[indexPath.row]
+                return cell
+            case .pair:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: pairIdentifier, for: indexPath) as! PairCollectionViewCell
+                let index = indexPath.row * 2
+                if (index + 1) < promotions.pair.count {
+                    cell.promotions = (promotions.pair[index], promotions.pair[index + 1])
+                } else {
+                    cell.promotions = (promotions.pair[index], nil)
+                }
+                return cell
+            case .content:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: contentIdentifier, for: indexPath) as! ContentCollectionViewCell
+                cell.promo = promotions.content[indexPath.row]
+                return cell
+            }
+            
+        }
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView,
+                                 viewForSupplementaryElementOfKind kind: String,
+                                 at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionElementKindSectionHeader {
+           
+            let sect = Sections(rawValue: indexPath.section)!
+            
+            
+            
+            
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                             withReuseIdentifier: "SectionHeader",
+                                                                             for: indexPath) as! SectionHeaderCollectionReusableView
+            let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
+            layout?.sectionHeadersPinToVisibleBounds = true
+            
+            
+            switch sect {
+            case .header:
+                headerView.title.text = "Header".uppercased()
+            case .single:
+                headerView.title.text = "Single".uppercased()
+            case .pair:
+                headerView.title.text = "Pair".uppercased()
+            case .content:
+                headerView.title.text = "Content".uppercased()
+            }
+            switch sect {
+            case .header:
+                if promotions.head.isEmpty {
+                    headerView.frame.size.height = 0
+                }
+            case .single:
+                if promotions.single.isEmpty {
+                    headerView.frame.size.height = 0
+                }
+            case .pair:
+                if promotions.pair.isEmpty {
+                    headerView.frame.size.height = 0
+                }
+            case .content:
+                if promotions.content.isEmpty {
+                    headerView.frame.size.height = 0
+                }
+            }
+            return headerView
+        }
+        return UICollectionReusableView()
+    }
+//MARK: - CollectionViewDelegate
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
+        let sect = Sections(rawValue: indexPath.section)!
+        switch sect {
+        case .single, .header:
+            let alert = UIAlertController()
+            alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler:
+                { alert in
+                    try! self.realm.write {
+                        self.realm.delete((cell as! SingleCollectionViewCell).promo!)
+                    }
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        case .content:
+            let alert = UIAlertController()
+            alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler:
+                { alert in
+                    try! self.realm.write {
+                        self.realm.delete((cell as! ContentCollectionViewCell).promo!)
+                    }
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            
+        default: break
+        
+        }
+    }
 }
+
+
+
+
+
 
 //MARK: - FlowLayout
 
 extension CollectionViewController : UICollectionViewDelegateFlowLayout {
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    
-    let screenWidth = collectionView.bounds.width//UIScreen.main.bounds.width
-    let scaleFactor = collectionView.bounds.height //screenWidth
-    
-    
-    switch collectionView.restorationIdentifier ?? "" {
-    case "PromotionsHeaderView":
-      return CGSize(width: screenWidth/1.5, height: scaleFactor)
-    default:
-      let sect = Sections(rawValue: indexPath.section)!
-      switch sect {
-      case .header:
-        return CGSize(width: screenWidth, height: scaleFactor/3)
-      default:
-        return CGSize(width: screenWidth - 20, height: scaleFactor/3)
-      }
-      
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let screenWidth = collectionView.bounds.width//UIScreen.main.bounds.width
+        let scaleFactor = collectionView.bounds.height //screenWidth
+        
+        switch collectionView.restorationIdentifier ?? "" {
+        case "PromotionsHeaderView":
+            return CGSize(width: screenWidth/2, height: scaleFactor)
+        default:
+            let sect = Sections(rawValue: indexPath.section)!
+            switch sect {
+            case .header:
+                return CGSize(width: screenWidth, height: scaleFactor/3)
+            default:
+                return CGSize(width: screenWidth - 20, height: scaleFactor/3)
+            }
+            
+        }
     }
-  }
-  
+    
 }
 
 //MARK: - enum extension
 
 protocol CaseCountable: RawRepresentable {}
 extension CaseCountable where RawValue == Int {
-  static var count: RawValue {
-    var i: RawValue = 0
-    while let _ = Self(rawValue: i) { i += 1 }
-    return i
-  }
+    static var count: RawValue {
+        var i: RawValue = 0
+        while let _ = Self(rawValue: i) { i += 1 }
+        return i
+    }
+}
+
+//MARK: - List extension
+
+extension List {
+    func registerNotification(collectionView: UICollectionView?, section : Int ) -> NotificationToken
+    {
+        return self.addNotificationBlock { [weak collectionView] changes in
+            guard let collectionView = collectionView else { return }
+            switch changes {
+            case .initial:
+                // Results are now populated and can be accessed without blocking the UI
+                collectionView.reloadSections(IndexSet(integer: section))
+            case .update(_, let deletions, let insertions, let modifications):
+                // Query results have changed, so apply them to the UITableView
+                collectionView.performBatchUpdates(
+                    {
+                        collectionView.insertItems(at: insertions.map({ IndexPath(row: $0, section: section)}))
+                        collectionView.deleteItems(at: deletions.map({ IndexPath(row: $0, section: section)}))
+                        collectionView.reloadItems(at: modifications.map({ IndexPath(row: $0, section: section)
+                        }))
+                }, completion: nil)
+            case .error(let error):
+                // An error occurred while opening the Realm file on the background worker thread
+                fatalError("\(error)")
+                break
+            }
+        }
+    }
+
 }

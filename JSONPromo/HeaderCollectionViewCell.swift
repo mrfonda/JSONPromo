@@ -7,26 +7,37 @@
 //
 
 import UIKit
+import RealmSwift
 
 class HeaderCollectionViewCell: UICollectionViewCell {
-  
-  @IBOutlet weak var collectionView: UICollectionView!
-  var collectionViewOffset: CGFloat {
-    get {
-      return collectionView.contentOffset.x
+   
+    @IBOutlet weak var collectionView: UICollectionView!
+    var headerNotificationToken: NotificationToken? = nil
+    var promotions : List<Promo>? {
+        didSet {
+           
+           headerNotificationToken = promotions?.registerNotification(collectionView: collectionView, section: 0)
+        }
     }
     
-    set {
-      collectionView.contentOffset.x = newValue
+    var collectionViewOffset: CGFloat {
+        
+        get {
+            return collectionView.contentOffset.x
+        }
+        
+        set {
+            collectionView.contentOffset.x = newValue
+        }
+        
     }
-  }
-  func setCollectionViewDataSourceDelegate
-    <D: UICollectionViewDataSource & UICollectionViewDelegate>
-    (dataSourceDelegate: D, forRow row: Int) {
-    
-    collectionView.delegate = dataSourceDelegate
-    collectionView.dataSource = dataSourceDelegate
-    collectionView.tag = row
-    collectionView.reloadData()
-  }
+    func setCollectionViewDataSourceDelegate
+        <D: UICollectionViewDataSource & UICollectionViewDelegate>
+        (dataSourceDelegate: D, forRow row: Int) {
+        
+        collectionView.delegate = dataSourceDelegate
+        collectionView.dataSource = dataSourceDelegate
+        collectionView.tag = row
+        collectionView.reloadData()
+    }
 }

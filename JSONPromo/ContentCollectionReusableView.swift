@@ -1,22 +1,24 @@
 //
-//  SingleCollectionViewCell.swift
+//  ContentCollectionReusableView.swift
 //  JSONPromo
 //
-//  Created by Vladislav Dorfman on 12/05/2017.
+//  Created by Vladislav Dorfman on 15/05/2017.
 //  Copyright © 2017 Vladislav Dorfman. All rights reserved.
 //
 
 import UIKit
 import Nuke
-class SingleCollectionViewCell: UICollectionViewCell {
-    var promo : Promo?
+
+class ContentCollectionViewCell: UICollectionViewCell {
+    
+    @IBOutlet weak var imageView: UIImageView!
+    var promo : ContentPromo?
     {
         didSet {
             updateUI(promo: promo)
         }
     }
-    @IBOutlet weak var imageView: UIImageView!
-    func updateUI(promo: Promo?) {
+    func updateUI(promo: ContentPromo?) {
         imageView.image = #imageLiteral(resourceName: "Picture")
         layer.cornerRadius = 5
         layer.masksToBounds = true
@@ -27,3 +29,4 @@ class SingleCollectionViewCell: UICollectionViewCell {
         }
     }
 }
+

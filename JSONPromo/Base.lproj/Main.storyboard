@@ -47,7 +47,7 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="329" height="98"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
-                                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="T3t-ea-f01">
+                                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="T3t-ea-f01">
                                                                 <rect key="frame" x="0.0" y="-0.5" width="329" height="98"/>
                                                             </imageView>
                                                         </subviews>
@@ -78,17 +78,17 @@
                                 </constraints>
                                 <size key="customSize" width="375" height="99"/>
                                 <connections>
-                                    <outlet property="collectionView" destination="VDH-de-Sdg" id="fa4-w0-lQm"/>
+                                    <outlet property="collectionView" destination="VDH-de-Sdg" id="LXx-kM-j1U"/>
                                 </connections>
                             </collectionViewCell>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SingleCell" id="FIy-oQ-hAS" customClass="SingleCollectionViewCell" customModule="JSONPromo">
-                                <rect key="frame" x="162.5" y="129" width="50" height="50"/>
+                                <rect key="frame" x="0.0" y="129" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ggp-EA-wdX">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ggp-EA-wdX">
                                             <rect key="frame" x="0.5" y="0.0" width="50" height="50"/>
                                         </imageView>
                                     </subviews>
@@ -101,6 +101,28 @@
                                 </constraints>
                                 <connections>
                                     <outlet property="imageView" destination="Ggp-EA-wdX" id="1Jr-hx-Hcg"/>
+                                </connections>
+                            </collectionViewCell>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ContentCell" id="oxp-69-G5i" customClass="ContentCollectionViewCell" customModule="JSONPromo">
+                                <rect key="frame" x="60" y="129" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vA3-PJ-s9F">
+                                            <rect key="frame" x="0.5" y="0.0" width="50" height="50"/>
+                                        </imageView>
+                                    </subviews>
+                                </view>
+                                <constraints>
+                                    <constraint firstItem="vA3-PJ-s9F" firstAttribute="width" secondItem="oxp-69-G5i" secondAttribute="width" id="bB0-6S-rEx"/>
+                                    <constraint firstItem="vA3-PJ-s9F" firstAttribute="centerY" secondItem="oxp-69-G5i" secondAttribute="centerY" id="bGz-Rn-Ljf"/>
+                                    <constraint firstItem="vA3-PJ-s9F" firstAttribute="height" secondItem="oxp-69-G5i" secondAttribute="height" id="c5m-x6-ZEV"/>
+                                    <constraint firstItem="vA3-PJ-s9F" firstAttribute="centerX" secondItem="oxp-69-G5i" secondAttribute="centerX" id="jcb-Tl-bKQ"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="imageView" destination="vA3-PJ-s9F" id="Gam-WN-FN2"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -143,6 +165,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" translucent="NO" id="h6Q-wn-FaR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         </textAttributes>

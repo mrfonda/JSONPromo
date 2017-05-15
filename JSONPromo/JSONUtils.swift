@@ -10,42 +10,40 @@ import Foundation
 class JSONUtils {
   static private let badJSON : [String: Any] = JSONUtils.readJSON(fileName: "bad")!
   static public let goodJSON : [String: Any] = JSONUtils.makeGoodJSON(badJSON)
-  
-  static func readJSON(fileName: String) -> [String: Any]?
-  {
-    do
+    
+    static func readJSON(fileName: String) -> [String: Any]?
     {
-      if let file = Bundle.main.url(forResource: fileName, withExtension: "json")
-      {
-        let data = try Data(contentsOf: file)
-        let json = try? JSONSerialization.jsonObject(with: data, options: [])
-        if let object = json as? [String: Any]
+        do
         {
-          return object
-        } else {
-          return nil
+            if let file = Bundle.main.url(forResource: fileName, withExtension: "json")
+            {
+                let data = try Data(contentsOf: file)
+                let json = try? JSONSerialization.jsonObject(with: data, options: [])
+                if let object = json as? [String: Any]
+                {
+                    return object
+                }
+            }
+            return nil
         }
-      } else {
-        return nil
-      }
+        catch
+        {
+            return nil
+        }
     }
-    catch
-    {
-      //handle error
-      return nil
-    }
-  }
   
   static func makeGoodJSON(_ badJSON: [String: Any]) -> [String: Any] {
     
-    func makeGoodSingle(_ badData: Dictionary<String, Any>) -> Dictionary<String, Any> {
+    func makeGoodSingle(_ badData: Dictionary<String, Any>) -> Dictionary<String, Any>
+    {
       var goodData = Dictionary<String, Any>()
       goodData["image_url"] = badData["image_url"]
       goodData["cat_id"] = (badData["query"] as! String).components(separatedBy: "|").last ?? ""
       return goodData
     }
     
-    func makeGoodPair(_ badData: Dictionary<String, Any>) -> (Dictionary<String, Any>, Dictionary<String, Any>) {
+    func makeGoodPair(_ badData: Dictionary<String, Any>) -> (Dictionary<String, Any>, Dictionary<String, Any>)
+    {
       var firstGoodData = Dictionary<String, Any>()
       var secondGoodData = Dictionary<String, Any>()
       
@@ -56,36 +54,45 @@ class JSONUtils {
       return (firstGoodData, secondGoodData)
     }
     
-    
+    //Refactor header
     var goodHeaders = [Dictionary<String, Any>]()
-    if let badHeaders = badJSON["header"] as? [[String:Any]] {
+    
+    if let badHeaders = badJSON["header"] as? [[String:Any]]
+    {
       for badHeader in badHeaders {
         goodHeaders.append(makeGoodSingle(badHeader))
       }
     }
     
+    //Refactor body
     let homepage = badJSON["homepage"] as? [Dictionary<String, Any>]
     var singlePromo = [Dictionary<String, Any>]()
     var pairPromo = [Dictionary<String, Any>]()
     var contentPromo = [Dictionary<String, Any>]()
     var bestsellers = [[Dictionary<String, Any>]]()
     var location = [[Dictionary<String, Any>]]()
-    if let homepage = homepage{
+    
+    if let homepage = homepage
+    {
       for page in homepage{
-        if let type = page["type"] as? String {
+        if let type = page["type"] as? String
+        {
           switch type {
           case "single_promo":
-            if let badSinglePromo = page["data"] as? [String:Any] {
+            if let badSinglePromo = page["data"] as? [String:Any]
+            {
               singlePromo.append(makeGoodSingle(badSinglePromo))
             }
           case "pair_promo":
-            if let badPairPromo = page["data"] as? [String:Any] {
+            if let badPairPromo = page["data"] as? [String:Any]
+            {
               let (first, second) = makeGoodPair(badPairPromo)
               pairPromo.append(first)
               pairPromo.append(second)
             }
           case "content_promo":
-            if let content = page["data"] as? Dictionary<String, Any> {
+            if let content = page["data"] as? Dictionary<String, Any>
+            {
               contentPromo.append(content)
             }
           case "location":
@@ -106,19 +113,24 @@ class JSONUtils {
     }
     var goodJSON: [String: Any] = ["header": goodHeaders]
     
-    if !singlePromo.isEmpty {
+    if !singlePromo.isEmpty
+    {
       goodJSON["single_promo"] = singlePromo
     }
-    if !pairPromo.isEmpty {
+    if !pairPromo.isEmpty
+    {
       goodJSON["pair_promo"] = pairPromo
     }
-    if !contentPromo.isEmpty {
+    if !contentPromo.isEmpty
+    {
       goodJSON["content_promo"] = contentPromo
     }
-    if !location.isEmpty {
+    if !location.isEmpty
+    {
       goodJSON["location"] = location
     }
-    if !bestsellers.isEmpty {
+    if !bestsellers.isEmpty
+    {
       goodJSON["bestsellers"] = bestsellers
     }
     return goodJSON

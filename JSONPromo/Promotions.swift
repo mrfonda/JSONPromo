@@ -17,9 +17,7 @@ class Promotions : Object, Mappable  {
   var single = List<Promo>()
   var pair = List<Promo>()
   var content = List<ContentPromo>()
-  
-  
-  
+
   required convenience init?(map: Map) {
     self.init()
   }
