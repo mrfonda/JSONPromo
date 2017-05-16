@@ -19,10 +19,10 @@ class CollectionViewController: UICollectionViewController {
     
     let realm = try! Realm()
         
-    var headerNotificationToken: NotificationToken? = nil
-    var singleNotificationToken: NotificationToken? = nil
-    var pairNotificationToken: NotificationToken? = nil
-    var contentNotificationToken: NotificationToken? = nil
+    var headerNotificationToken: NotificationToken? = nil { didSet { oldValue?.stop() } }
+    var singleNotificationToken: NotificationToken? = nil { didSet { oldValue?.stop() } }
+    //var pairNotificationToken: NotificationToken? = nil { didSet { oldValue?.stop() } }
+    var contentNotificationToken: NotificationToken? = nil { didSet { oldValue?.stop() } }
     
     var promotions: Promotions = Promotions()
 
@@ -33,7 +33,23 @@ class CollectionViewController: UICollectionViewController {
         case single = 1
         case pair = 2
         case content = 3
+//        var countInSection : Int {
+//            get {
+//                switch self {
+//                case .header:
+//                    return self.headerItems
+//                }
+//            }
+//            set {
+//                
+//            }
+//        }
     }
+    //
+    var singleItems = 0
+    var pairItems = 0
+    var contentItems = 0
+    var headerItems = 0
     
     //MARK: - Lifecycle
     
@@ -44,17 +60,17 @@ class CollectionViewController: UICollectionViewController {
         
         // Observe Results Notifications
         promotions = realm.objects(Promotions.self)[0]
-        singleNotificationToken = promotions.single.registerNotification(collectionView: collectionView, section: Sections.single.rawValue)
+        //singleNotificationToken = promotions.single.registerNotification(collectionView: collectionView, section: Sections.single.rawValue)
         //pairNotificationToken = promotions.pair.registerNotification(collectionView: collectionView, section: Sections.pair.rawValue)
         contentNotificationToken = promotions.content.registerNotification(collectionView: collectionView, section: Sections.content.rawValue)
-        
+        singleNotificationToken = promotions.single.registerNotification(collectionView: collectionView, section: Sections.single.rawValue)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.refresh, target: self, action: #selector(reparse))
     }
     
     deinit {
         headerNotificationToken?.stop()
         singleNotificationToken?.stop()
-        pairNotificationToken?.stop()
+        //pairNotificationToken?.stop()
         contentNotificationToken?.stop()
     }
     
@@ -163,28 +179,36 @@ class CollectionViewController: UICollectionViewController {
             case .content:
                 headerView.title.text = "Content".uppercased()
             }
-            switch sect {
-            case .header:
-                if promotions.head.isEmpty {
-                    headerView.frame.size.height = 0
-                }
-            case .single:
-                if promotions.single.isEmpty {
-                    headerView.frame.size.height = 0
-                }
-            case .pair:
-                if promotions.pair.isEmpty {
-                    headerView.frame.size.height = 0
-                }
-            case .content:
-                if promotions.content.isEmpty {
-                    headerView.frame.size.height = 0
-                }
-            }
             return headerView
         }
         return UICollectionReusableView()
     }
+
+    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+//        let sect = Sections(rawValue: section)!
+//        switch sect {
+//        case .header:
+//            if promotions.head.isEmpty {
+//                return CGSize.zero
+//            }
+//        case .single:
+//            if promotions.single.isEmpty {
+//                return CGSize.zero
+//            }
+//        case .pair:
+//            if promotions.pair.isEmpty {
+//                return CGSize.zero
+//            }
+//        case .content:
+//            if promotions.content.isEmpty {
+//                return CGSize.zero
+//            }
+//        }
+//        return CGSize(width: 10, height: 10)
+//    }
+
+
 //MARK: - CollectionViewDelegate
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -217,11 +241,6 @@ class CollectionViewController: UICollectionViewController {
         }
     }
 }
-
-
-
-
-
 
 //MARK: - FlowLayout
 
@@ -271,6 +290,7 @@ extension List {
                 // Results are now populated and can be accessed without blocking the UI
                 collectionView.reloadSections(IndexSet(integer: section))
             case .update(_, let deletions, let insertions, let modifications):
+                print(deletions, insertions, modifications,section)
                 // Query results have changed, so apply them to the UITableView
                 collectionView.performBatchUpdates(
                     {
