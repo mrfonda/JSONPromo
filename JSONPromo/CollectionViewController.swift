@@ -165,44 +165,33 @@ class CollectionViewController: UICollectionViewController {
 
 //MARK: - CollectionViewDelegate
     
+    func deleteItemDialog(_ collectionView: UICollectionView, object: Object, indexPath : IndexPath) {
+        let alert = UIAlertController()
+        alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler:
+            { alert in
+                
+                try! self.realm.write {
+                    self.realm.delete(object)
+                    collectionView.deleteItems(at: [indexPath])
+                }
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath)
         let sect = Sections(rawValue: indexPath.section)!
         switch sect {
         case .single, .header:
-            let alert = UIAlertController()
-            alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler:
-                { alert in
-                    
-                    try! self.realm.write {
-                        self.realm.delete((cell as! SingleCollectionViewCell).promo!)
-                        collectionView.deleteItems(at: [indexPath])
-                    }
-            }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        case .content:
-            let alert = UIAlertController()
-            alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler:
-                { alert in
-                    
-                    try! self.realm.write {
-                        self.realm.delete((cell as! ContentCollectionViewCell).promo!)
-                    }
-                    collectionView.deleteItems(at: [indexPath])
-            }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-            
+            deleteItemDialog(collectionView, object: (cell as! SingleCollectionViewCell).promo!, indexPath: indexPath)
+                    case .content:
+            deleteItemDialog(collectionView, object: (cell as! ContentCollectionViewCell).promo!, indexPath: indexPath)
         default: break
         
         }
     }
-
-//    override func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//        <#code#>
-//    }
-//    collection
 }
 
 
