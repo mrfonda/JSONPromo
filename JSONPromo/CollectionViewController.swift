@@ -24,7 +24,11 @@ class CollectionViewController: UICollectionViewController {
     //var pairNotificationToken: NotificationToken? = nil { didSet { oldValue?.stop() } }
     var contentNotificationToken: NotificationToken? = nil { didSet { oldValue?.stop() } }
     
-    var promotions: Promotions = Promotions()
+    var promotions: Promotions = Promotions() {
+        didSet {
+           collectionView?.reloadData()
+        }
+    }
 
     var storedOffsets = [Int: CGFloat]()
     
@@ -33,23 +37,7 @@ class CollectionViewController: UICollectionViewController {
         case single = 1
         case pair = 2
         case content = 3
-//        var countInSection : Int {
-//            get {
-//                switch self {
-//                case .header:
-//                    return self.headerItems
-//                }
-//            }
-//            set {
-//                
-//            }
-//        }
     }
-    //
-    var singleItems = 0
-    var pairItems = 0
-    var contentItems = 0
-    var headerItems = 0
     
     //MARK: - Lifecycle
     
@@ -58,20 +46,9 @@ class CollectionViewController: UICollectionViewController {
         collectionView?.autoresizesSubviews = true
         self.collectionView!.register(UINib(nibName: "PairCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: pairIdentifier)
         
-        // Observe Results Notifications
         promotions = realm.objects(Promotions.self)[0]
-        //singleNotificationToken = promotions.single.registerNotification(collectionView: collectionView, section: Sections.single.rawValue)
-        //pairNotificationToken = promotions.pair.registerNotification(collectionView: collectionView, section: Sections.pair.rawValue)
-        contentNotificationToken = promotions.content.registerNotification(collectionView: collectionView, section: Sections.content.rawValue)
-        singleNotificationToken = promotions.single.registerNotification(collectionView: collectionView, section: Sections.single.rawValue)
+
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.refresh, target: self, action: #selector(reparse))
-    }
-    
-    deinit {
-        headerNotificationToken?.stop()
-        singleNotificationToken?.stop()
-        //pairNotificationToken?.stop()
-        contentNotificationToken?.stop()
     }
     
     //MARK: - UI
@@ -80,6 +57,7 @@ class CollectionViewController: UICollectionViewController {
         let promotions = Promotions(JSON: JSONUtils.goodJSON)
         try! realm.write {
             realm.add(promotions!, update: true)
+            self.promotions = promotions!
         }
     }
     
@@ -184,30 +162,6 @@ class CollectionViewController: UICollectionViewController {
         return UICollectionReusableView()
     }
 
-    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-//        let sect = Sections(rawValue: section)!
-//        switch sect {
-//        case .header:
-//            if promotions.head.isEmpty {
-//                return CGSize.zero
-//            }
-//        case .single:
-//            if promotions.single.isEmpty {
-//                return CGSize.zero
-//            }
-//        case .pair:
-//            if promotions.pair.isEmpty {
-//                return CGSize.zero
-//            }
-//        case .content:
-//            if promotions.content.isEmpty {
-//                return CGSize.zero
-//            }
-//        }
-//        return CGSize(width: 10, height: 10)
-//    }
-
 
 //MARK: - CollectionViewDelegate
     
@@ -219,8 +173,10 @@ class CollectionViewController: UICollectionViewController {
             let alert = UIAlertController()
             alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler:
                 { alert in
+                    
                     try! self.realm.write {
                         self.realm.delete((cell as! SingleCollectionViewCell).promo!)
+                        collectionView.deleteItems(at: [indexPath])
                     }
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
@@ -229,9 +185,11 @@ class CollectionViewController: UICollectionViewController {
             let alert = UIAlertController()
             alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler:
                 { alert in
+                    
                     try! self.realm.write {
                         self.realm.delete((cell as! ContentCollectionViewCell).promo!)
                     }
+                    collectionView.deleteItems(at: [indexPath])
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
             self.present(alert, animated: true, completion: nil)
@@ -240,7 +198,13 @@ class CollectionViewController: UICollectionViewController {
         
         }
     }
+
+//    override func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//        <#code#>
+//    }
+//    collection
 }
+
 
 //MARK: - FlowLayout
 
@@ -276,35 +240,4 @@ extension CaseCountable where RawValue == Int {
         while let _ = Self(rawValue: i) { i += 1 }
         return i
     }
-}
-
-//MARK: - List extension
-
-extension List {
-    func registerNotification(collectionView: UICollectionView?, section : Int ) -> NotificationToken
-    {
-        return self.addNotificationBlock { [weak collectionView] changes in
-            guard let collectionView = collectionView else { return }
-            switch changes {
-            case .initial:
-                // Results are now populated and can be accessed without blocking the UI
-                collectionView.reloadSections(IndexSet(integer: section))
-            case .update(_, let deletions, let insertions, let modifications):
-                print(deletions, insertions, modifications,section)
-                // Query results have changed, so apply them to the UITableView
-                collectionView.performBatchUpdates(
-                    {
-                        collectionView.insertItems(at: insertions.map({ IndexPath(row: $0, section: section)}))
-                        collectionView.deleteItems(at: deletions.map({ IndexPath(row: $0, section: section)}))
-                        collectionView.reloadItems(at: modifications.map({ IndexPath(row: $0, section: section)
-                        }))
-                }, completion: nil)
-            case .error(let error):
-                // An error occurred while opening the Realm file on the background worker thread
-                fatalError("\(error)")
-                break
-            }
-        }
-    }
-
 }

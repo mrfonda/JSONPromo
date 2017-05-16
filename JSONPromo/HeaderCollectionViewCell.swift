@@ -16,7 +16,7 @@ class HeaderCollectionViewCell: UICollectionViewCell {
     var promotions : List<Promo>? {
         didSet {
            
-           headerNotificationToken = promotions?.registerNotification(collectionView: collectionView, section: 0)
+           //headerNotificationToken = promotions?.registerNotification(collectionView: collectionView, section: 0)
         }
     }
     
