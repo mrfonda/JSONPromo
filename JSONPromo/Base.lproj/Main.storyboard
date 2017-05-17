@@ -4,6 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -12,7 +13,7 @@
         <scene sceneID="NxA-mw-yQd">
             <objects>
                 <collectionViewController id="U7F-EZ-yyn" customClass="CollectionViewController" customModule="JSONPromo" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" restorationIdentifier="PromotionsView" dataMode="prototypes" id="IUa-gG-7JV">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" restorationIdentifier="PromotionsView" dataMode="prototypes" id="IUa-gG-7JV">
                         <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -126,7 +127,7 @@
                                 </connections>
                             </collectionViewCell>
                         </cells>
-                        <collectionReusableView key="sectionHeaderView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SectionHeader" id="t0V-hU-ZSD" customClass="SectionHeaderCollectionReusableView" customModule="JSONPromo" customModuleProvider="target">
+                        <collectionReusableView key="sectionHeaderView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SectionHeader" id="t0V-hU-ZSD" customClass="SectionHeaderCollectionReusableView" customModule="SectionHeader">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <subviews>
@@ -154,6 +155,145 @@
                     <navigationItem key="navigationItem" title="PROMOTIONS" id="sWB-rb-pv4"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vqC-mU-Baz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" restorationIdentifier="PromotionsView" dataMode="prototypes" id="rHL-9V-bDE">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="fh2-jM-xG5">
+                        <size key="itemSize" width="50" height="50"/>
+                        <size key="headerReferenceSize" width="50" height="20"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                    <cells>
+                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="HeaderCell" id="Ukb-z8-jcR" userLabel="HeaderCell" customClass="HeaderCollectionViewCell" customModule="JSONPromo" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="20" width="375" height="99"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="99"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <subviews>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" restorationIdentifier="PromotionsHeaderView" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="9uE-zf-Qrz">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="99"/>
+                                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="kNb-6H-bTy">
+                                            <size key="itemSize" width="329" height="98"/>
+                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        </collectionViewFlowLayout>
+                                        <cells>
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" reuseIdentifier="SingleCell" id="OG2-Jy-DAk" customClass="SingleCollectionViewCell" customModule="JSONPromo">
+                                                <rect key="frame" x="0.0" y="0.5" width="329" height="98"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                                    <rect key="frame" x="0.0" y="0.0" width="329" height="98"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CGj-nf-YBq">
+                                                            <rect key="frame" x="0.0" y="-0.5" width="329" height="98"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                </view>
+                                                <constraints>
+                                                    <constraint firstItem="CGj-nf-YBq" firstAttribute="centerY" secondItem="OG2-Jy-DAk" secondAttribute="centerY" id="H4u-LU-hZG"/>
+                                                    <constraint firstItem="CGj-nf-YBq" firstAttribute="width" secondItem="OG2-Jy-DAk" secondAttribute="width" id="kiz-1h-rJY"/>
+                                                    <constraint firstItem="CGj-nf-YBq" firstAttribute="height" secondItem="OG2-Jy-DAk" secondAttribute="height" id="qJ8-00-d50"/>
+                                                    <constraint firstItem="CGj-nf-YBq" firstAttribute="centerX" secondItem="OG2-Jy-DAk" secondAttribute="centerX" id="qkN-pe-1cd"/>
+                                                </constraints>
+                                                <connections>
+                                                    <outlet property="imageView" destination="CGj-nf-YBq" id="9Zb-Kk-xP8"/>
+                                                </connections>
+                                            </collectionViewCell>
+                                        </cells>
+                                        <connections>
+                                            <outlet property="dataSource" destination="U7F-EZ-yyn" id="Wow-1R-BGg"/>
+                                            <outlet property="delegate" destination="U7F-EZ-yyn" id="QuH-UZ-5cy"/>
+                                        </connections>
+                                    </collectionView>
+                                </subviews>
+                            </view>
+                            <constraints>
+                                <constraint firstItem="9uE-zf-Qrz" firstAttribute="height" secondItem="Ukb-z8-jcR" secondAttribute="height" id="Jid-cj-a7V"/>
+                                <constraint firstItem="9uE-zf-Qrz" firstAttribute="width" secondItem="Ukb-z8-jcR" secondAttribute="width" id="Upc-6p-Zhl"/>
+                                <constraint firstItem="9uE-zf-Qrz" firstAttribute="centerY" secondItem="Ukb-z8-jcR" secondAttribute="centerY" id="YnL-Vi-KUO"/>
+                                <constraint firstItem="9uE-zf-Qrz" firstAttribute="centerX" secondItem="Ukb-z8-jcR" secondAttribute="centerX" id="c5e-0W-lfR"/>
+                            </constraints>
+                            <size key="customSize" width="375" height="99"/>
+                            <connections>
+                                <outlet property="collectionView" destination="9uE-zf-Qrz" id="Ag2-ti-x4b"/>
+                            </connections>
+                        </collectionViewCell>
+                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SingleCell" id="RcS-Kq-Nuj" customClass="SingleCollectionViewCell" customModule="JSONPromo">
+                            <rect key="frame" x="0.0" y="129" width="50" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jzO-g5-MaY">
+                                        <rect key="frame" x="0.5" y="0.0" width="50" height="50"/>
+                                    </imageView>
+                                </subviews>
+                            </view>
+                            <constraints>
+                                <constraint firstItem="jzO-g5-MaY" firstAttribute="centerY" secondItem="RcS-Kq-Nuj" secondAttribute="centerY" id="4NP-yA-dp1"/>
+                                <constraint firstItem="jzO-g5-MaY" firstAttribute="width" secondItem="RcS-Kq-Nuj" secondAttribute="width" id="IzQ-o1-6VX"/>
+                                <constraint firstItem="jzO-g5-MaY" firstAttribute="height" secondItem="RcS-Kq-Nuj" secondAttribute="height" id="got-2e-7TA"/>
+                                <constraint firstItem="jzO-g5-MaY" firstAttribute="centerX" secondItem="RcS-Kq-Nuj" secondAttribute="centerX" id="sGB-4M-uM2"/>
+                            </constraints>
+                            <connections>
+                                <outlet property="imageView" destination="jzO-g5-MaY" id="lrK-gq-1Qe"/>
+                            </connections>
+                        </collectionViewCell>
+                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ContentCell" id="2oC-9H-iol" customClass="ContentCollectionViewCell" customModule="JSONPromo">
+                            <rect key="frame" x="60" y="129" width="50" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="C2J-OR-tyv">
+                                        <rect key="frame" x="0.5" y="0.0" width="50" height="50"/>
+                                    </imageView>
+                                </subviews>
+                            </view>
+                            <constraints>
+                                <constraint firstItem="C2J-OR-tyv" firstAttribute="centerX" secondItem="2oC-9H-iol" secondAttribute="centerX" id="0h8-57-4S0"/>
+                                <constraint firstItem="C2J-OR-tyv" firstAttribute="height" secondItem="2oC-9H-iol" secondAttribute="height" id="71y-fX-lr5"/>
+                                <constraint firstItem="C2J-OR-tyv" firstAttribute="centerY" secondItem="2oC-9H-iol" secondAttribute="centerY" id="J3t-uV-BRt"/>
+                                <constraint firstItem="C2J-OR-tyv" firstAttribute="width" secondItem="2oC-9H-iol" secondAttribute="width" id="RX8-zJ-Bnc"/>
+                            </constraints>
+                            <connections>
+                                <outlet property="imageView" destination="C2J-OR-tyv" id="9pU-1O-SdO"/>
+                            </connections>
+                        </collectionViewCell>
+                    </cells>
+                    <collectionReusableView key="sectionHeaderView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SectionHeader" id="aRs-0b-pEw" customClass="SectionHeaderCollectionReusableView" customModule="JSONPromo" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Section title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bsk-XD-dlk">
+                                <rect key="frame" x="150" y="0.5" width="76" height="19.5"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Bsk-XD-dlk" firstAttribute="centerX" secondItem="aRs-0b-pEw" secondAttribute="centerX" id="V0v-uA-5NA"/>
+                            <constraint firstItem="Bsk-XD-dlk" firstAttribute="centerY" secondItem="aRs-0b-pEw" secondAttribute="centerY" id="Yyi-TC-Faa"/>
+                        </constraints>
+                        <connections>
+                            <outlet property="title" destination="Bsk-XD-dlk" id="KOH-6w-VTh"/>
+                        </connections>
+                    </collectionReusableView>
+                    <connections>
+                        <outlet property="dataSource" destination="U7F-EZ-yyn" id="GpE-n5-AP5"/>
+                        <outlet property="delegate" destination="U7F-EZ-yyn" id="7Nx-tu-FZ5"/>
+                    </connections>
+                </collectionView>
             </objects>
             <point key="canvasLocation" x="2058.4000000000001" y="-495.20239880059972"/>
         </scene>
@@ -162,7 +302,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9tW-vj-Jwe" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" translucent="NO" id="h6Q-wn-FaR">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="h6Q-wn-FaR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
