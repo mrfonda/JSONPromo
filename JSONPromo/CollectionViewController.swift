@@ -35,7 +35,8 @@ class CollectionViewController: UICollectionViewController  {
         case pair = 2
         case content = 3
     }
-    //
+    
+    
     var singleItems = 0
     var pairItems = 0
     var contentItems = 0
@@ -48,36 +49,83 @@ class CollectionViewController: UICollectionViewController  {
         collectionView?.autoresizesSubviews = true
         
        self.collectionView!.register(UINib(nibName: "PairCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: pairIdentifier)
-       self.collectionView!.register(SectionHeaderCollectionReusableView.self, forSupplementaryViewOfKind:UICollectionElementKindSectionHeader, withReuseIdentifier: headerIdentifier)
-        
-        // collectionView?.setCollectionViewLayout(CustomFlowLayout(), animated: false)
+    
         setupCollectionViewLayout()
-        //collectionView?.layout.headerReferenceSize = CGSizeMake(HEADER_WIDTH, HEADER_HEIGHT)
-        
         collectionView?.isPrefetchingEnabled = true
+        
         // Observe Results Notifications
         promotions = realm.objects(Promotions.self)[0]
-        //singleNotificationToken = promotions.single.registerNotification(collectionView: collectionView, section: Sections.single.rawValue)
-        //pairNotificationToken = promotions.pair.registerNotification(collectionView: collectionView, section: Sections.pair.rawValue)
-        contentNotificationToken = promotions.content.registerNotification(collectionView: collectionView, section: Sections.content.rawValue)
         singleNotificationToken = promotions.single.registerNotification(collectionView: collectionView, section: Sections.single.rawValue)
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.refresh, target: self, action: #selector(reparse))
+        let deleteButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.trash, target: self, action: #selector(deleteSelected))
+        let editButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fastForward, target: self, action: #selector(changeSetting))
+        
+        self.navigationItem.leftBarButtonItems = [deleteButton, editButton]
     }
     
     deinit {
         headerNotificationToken?.stop()
         singleNotificationToken?.stop()
-        //pairNotificationToken?.stop()
         contentNotificationToken?.stop()
     }
-    
     //MARK: - UI
     
     func reparse() {
         let promotions = Promotions(JSON: JSONUtils.goodJSON)
         try! realm.write {
             realm.add(promotions!, update: true)
+        }
+    }
+    func changeSetting() {
+        Settings.enambleSpring = !Settings.enambleSpring
+        UIView.animate(withDuration: 1, animations: {
+            self.navigationItem.prompt = Settings.enambleSpring ? "Spring enabled" : "Spring disabled"
+        }) { _ in
+            self.navigationItem.prompt = nil
+        }
+        
+    }
+    func deleteSelected() {
+        
+        if let selected = collectionView?.indexPathsForSelectedItems {
+            var toDelete = selected
+            if let headerCell = (self.collectionView?.cellForItem(at: IndexPath(row: 0, section: 0)) as? HeaderCollectionViewCell) {
+                if let headerToDelete = headerCell.collectionView.indexPathsForSelectedItems {
+                    for iP in headerToDelete {
+                        toDelete.append(iP)
+                    }
+                }
+            }
+            if !toDelete.isEmpty {
+                let alert = UIAlertController()
+                alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler:
+                    { alert in
+                        for indexPath in toDelete {
+                            let sect = Sections(rawValue: indexPath.section)!
+                            switch sect {
+                            case .header:
+                                if let headerCollectionView = (self.collectionView?.cellForItem(at: IndexPath(row: 0, section: 0)) as! HeaderCollectionViewCell).collectionView {
+                                    let cell = headerCollectionView.cellForItem(at: indexPath)
+                                    try! self.realm.write {
+                                        self.realm.delete((cell as! SingleCollectionViewCell).promo!)
+                                    }
+                                }
+                            case .single:
+                                
+                                let cell = self.collectionView?.cellForItem(at: indexPath)
+                                
+                                try! self.realm.write {
+                                    self.realm.delete((cell as! SingleCollectionViewCell).promo!)
+                                }
+                            default: break
+                                
+                            }
+                        }
+                }))
+                alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
         }
     }
     
@@ -112,13 +160,6 @@ class CollectionViewController: UICollectionViewController  {
             }
         }
     }
-    
-    //    func initialLayoutAttributesForAppearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes {
-    //        let attr: UICollectionViewLayoutAttributes? = layoutAttributesForItem(at: itemIndexPath)
-    //        attr?.transform = CGAffineTransform(scaleX: 0.2, y: 0.2).rotated(by: .pi)
-    //        attr?.center = CGPoint(x: CGFloat(collectionView?.bounds.midX), y: CGFloat(collectionView?.bounds.maxY))
-    //        return attr!
-    //    }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch collectionView.restorationIdentifier ?? "" {
@@ -164,7 +205,6 @@ class CollectionViewController: UICollectionViewController  {
             
         }
     }
-    
     override func collectionView(_ collectionView: UICollectionView,
                                  viewForSupplementaryElementOfKind kind: String,
                                  at indexPath: IndexPath) -> UICollectionReusableView {
@@ -195,40 +235,57 @@ class CollectionViewController: UICollectionViewController  {
         
     }
     
-    //MARK: - CollectionViewDelegate
+    //MARK: - CollectionViewDelegate Animation
+   
+    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        cell.alpha = 0.0
+        UIView.animate(withDuration: 0.5) {
+            cell.alpha = 1.0
+        }
+    }
+    override func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
+        UIView.animate(withDuration: 0.05, animations: {
+            cell?.transform = CGAffineTransform.identity.scaledBy(x: 0.8, y: 0.8)
+        })
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
+        UIView.animate(withDuration: 0.6, animations: {
+            cell?.transform = CGAffineTransform.identity
+        })
+    }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath)
-        let sect = Sections(rawValue: indexPath.section)!
-        switch sect {
-        case .single, .header:
-            let alert = UIAlertController()
-            alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler:
-                { alert in
-                    try! self.realm.write {
-                        self.realm.delete((cell as! SingleCollectionViewCell).promo!)
-                    }
-            }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        case .content:
-            let alert = UIAlertController()
-            alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler:
-                { alert in
-                    try! self.realm.write {
-                        self.realm.delete((cell as! ContentCollectionViewCell).promo!)
-                    }
-            }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-            
-        default: break
-            
-        }
+        
+        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: [], animations: {
+            cell?.transform = CGAffineTransform.identity.scaledBy(x: 0.8, y: 0.8)
+        }, completion: { _ in
+            UIView.animate(withDuration: 0.2, delay: 0.1, usingSpringWithDamping: 0.3, initialSpringVelocity: 0, options: [], animations: {
+                
+                cell?.transform = CGAffineTransform.identity
+            })
+            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: [], animations: {
+                //cell?.backgroundColor = UIColor.getRandomColor()
+               // cell?.selectedBackgroundView?.backgroundColor = UIColor.getRandomColor()
+            })
+        })
+        cell?.selectedBackgroundView?.backgroundColor = UIColor.getRandomColor()
+
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: [], animations: {
+            cell?.transform = CGAffineTransform.identity
+            cell?.backgroundColor = UIColor.clear
+        })
     }
 }
 
-//MARK: - FlowLayout
+//MARK: - FlowLayout Delegate
 
 extension CollectionViewController : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -250,33 +307,16 @@ extension CollectionViewController : UICollectionViewDelegateFlowLayout {
             
         }
     }
-    //MARK: - Animation FlowLayout
-    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        cell.alpha = 0.0
-        UIView.animate(withDuration: 0.3) {
-            cell.alpha = 1.0
-        }
-       // cell.layer.newsAnimation()
-    }
-    
+
     func setupCollectionViewLayout() {
         let layout = CustomFlowLayout()
-        //layout.headerReferenceSize = CGSize(width: 100, height: 40 )
+        layout.headerReferenceSize = CGSize(width: 100, height: 20 )
         collectionView?.collectionViewLayout = layout
     }
     
 }
 
-//MARK: - enum extension
 
-protocol CaseCountable: RawRepresentable {}
-extension CaseCountable where RawValue == Int {
-    static var count: RawValue {
-        var i: RawValue = 0
-        while let _ = Self(rawValue: i) { i += 1 }
-        return i
-    }
-}
 
 //MARK: - List extension
 
@@ -288,25 +328,44 @@ extension List {
             switch changes {
             case .initial:
                 // Results are now populated and can be accessed without blocking the UI
-//                UIView.animate(withDuration: 2.5, delay: 0.0, usingSpringWithDamping: 0.2, initialSpringVelocity: 0.0, options: [UIViewAnimationOptions.preferredFramesPerSecond60, ], animations:
-//                    { () -> Void in
+                
+                UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: [UIViewAnimationOptions.preferredFramesPerSecond60, ], animations:
+                    { () -> Void in
                         collectionView.reloadSections(IndexSet(integer: section))
-//                }, completion: { _ in })
+                }, completion: { _ in })
+                
             case .update(_, let deletions, let insertions, let modifications):
                 print(deletions, insertions, modifications,section)
-                // Query results have changed, so apply them to the UITableView
-//                UIView.animate(withDuration: 0.5, delay: 2.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.0, options: [UIViewAnimationOptions.preferredFramesPerSecond60, ], animations:
-//                    { () -> Void in
-                        collectionView.performBatchUpdates(
-                            {
-                                collectionView.insertItems(at: insertions.map({ IndexPath(row: $0, section: section)}))
-                                collectionView.deleteItems(at: deletions.map({ IndexPath(row: $0, section: section)}))
-                                collectionView.reloadItems(at: modifications.map({ IndexPath(row: $0, section: section)
-                                }))
-                        }, completion: nil)
-//                }, completion: { _ in })
-                
-                
+                // Query results have changed, so apply them
+                if Settings.enambleSpring
+                {
+                    UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.0, options: [], animations:
+                        
+                        { () -> Void in
+                            collectionView.performBatchUpdates(
+                                {
+                                    collectionView.insertItems(at: insertions.map({ IndexPath(row: $0, section: section)}))
+                                    
+                                    collectionView.deleteItems(at: deletions.map({IndexPath(row: $0, section: section)}))
+                                    
+                                    collectionView.reloadItems(at: modifications.map({ IndexPath(row: $0, section: section)}))
+                                    
+                                    
+                            }, completion: nil)
+                    }, completion: { _ in })
+                } else {
+                    collectionView.performBatchUpdates(
+                        {
+                            collectionView.insertItems(at: insertions.map({ IndexPath(row: $0, section: section)}))
+                            
+                            collectionView.deleteItems(at: deletions.map({IndexPath(row: $0, section: section)}))
+                            
+                            collectionView.reloadItems(at: modifications.map({ IndexPath(row: $0, section: section)}))
+                            
+                            
+                    }, completion: nil)
+                }
+
             case .error(let error):
                 // An error occurred while opening the Realm file on the background worker thread
                 fatalError("\(error)")
@@ -314,83 +373,15 @@ extension List {
             }
         }
     }
-    
 }
 
-//MARK: - CALayer extension
 
-extension CALayer {
-    
-    func newsAnimation() {
-        let scaleAnim      = CAKeyframeAnimation(keyPath:"transform")
-        scaleAnim.values   = [NSValue(caTransform3D: CATransform3DMakeScale(0, 0, 0)),
-                              NSValue(caTransform3D: CATransform3DIdentity)]
-        scaleAnim.keyTimes = [0, 1]
-        scaleAnim.duration = 2
-        
-        
-        let opacityAnim      = CAKeyframeAnimation(keyPath:"opacity")
-        opacityAnim.values   = [0, 1]
-        opacityAnim.keyTimes = [0, 1]
-        opacityAnim.duration = 2
-        
-        let rotateAnim      = CAKeyframeAnimation(keyPath:"transform.rotation.z")
-        rotateAnim.values   = [0,
-                               -2880 * CGFloat(M_PI/180)]
-        rotateAnim.keyTimes = [0, 1]
-        rotateAnim.duration = 2
-        
-        let groupAnimation = CAAnimationGroup()
-        groupAnimation.animations = [scaleAnim, rotateAnim, opacityAnim]
-        groupAnimation.timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseOut)
-        
-        if let animations = groupAnimation.animations {
-            for anim in animations {
-                anim.fillMode = kCAFillModeForwards
-            }
-        }
-        groupAnimation.fillMode = kCAFillModeForwards
-        groupAnimation.isRemovedOnCompletion = false
-        
-        
-        groupAnimation.duration = 2
-        
-        
-        self.add(groupAnimation, forKey: "groupAnimation")
-        self.animation(forKey: "groupAnimation")
-    }
-}
 
 
 //MARK: - CustomFlowLayout
 
 class CustomFlowLayout : UICollectionViewFlowLayout {
-    var insertingIndexPaths = [IndexPath]()
-    
-//    override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-//        <#code#>
-//    
-//    }
-    
-        override func prepare(forCollectionViewUpdates updateItems: [UICollectionViewUpdateItem]) {
-            super.prepare(forCollectionViewUpdates: updateItems)
-            
-            insertingIndexPaths.removeAll()
-            
-            for update in updateItems {
-                if let indexPath = update.indexPathAfterUpdate,
-                    update.updateAction == .insert {
-                    insertingIndexPaths.append(indexPath)
-                }
-            }
-        }
-    
-        override func finalizeCollectionViewUpdates() {
-            super.finalizeCollectionViewUpdates()
-            
-            insertingIndexPaths.removeAll()
-        }
-    
+    //Initial zoom in
     override func initialLayoutAttributesForAppearingItem( at itemIndexPath: IndexPath) ->UICollectionViewLayoutAttributes? {
         let attributes = super.initialLayoutAttributesForAppearingItem(at: itemIndexPath)
         
@@ -402,15 +393,5 @@ class CustomFlowLayout : UICollectionViewFlowLayout {
         return attributes
     }
     
-  
-    override func finalLayoutAttributesForDisappearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-    let attributes = super.initialLayoutAttributesForAppearingItem(at: itemIndexPath)
-        
-        attributes?.transform = CGAffineTransform(
-                    translationX: 0,
-                    y: -500.0 )
-        attributes?.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-        return attributes
-    }
-    
 }
+

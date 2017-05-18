@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -49,14 +50,14 @@
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="T3t-ea-f01">
-                                                                <rect key="frame" x="0.0" y="-0.5" width="329" height="98"/>
+                                                                <rect key="frame" x="16.5" y="4.5" width="296" height="88"/>
                                                             </imageView>
                                                         </subviews>
                                                     </view>
                                                     <constraints>
-                                                        <constraint firstItem="T3t-ea-f01" firstAttribute="width" secondItem="58W-Zp-5yo" secondAttribute="width" id="0RU-0C-leB"/>
+                                                        <constraint firstItem="T3t-ea-f01" firstAttribute="width" secondItem="58W-Zp-5yo" secondAttribute="width" multiplier="0.9" id="0RU-0C-leB"/>
                                                         <constraint firstItem="T3t-ea-f01" firstAttribute="centerY" secondItem="58W-Zp-5yo" secondAttribute="centerY" id="HWh-Qx-lkh"/>
-                                                        <constraint firstItem="T3t-ea-f01" firstAttribute="height" secondItem="58W-Zp-5yo" secondAttribute="height" id="Ue5-Aw-PLG"/>
+                                                        <constraint firstItem="T3t-ea-f01" firstAttribute="height" secondItem="58W-Zp-5yo" secondAttribute="height" multiplier="0.9" id="Ue5-Aw-PLG"/>
                                                         <constraint firstItem="T3t-ea-f01" firstAttribute="centerX" secondItem="58W-Zp-5yo" secondAttribute="centerX" id="a9T-iD-UG8"/>
                                                     </constraints>
                                                     <connections>
@@ -90,15 +91,15 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ggp-EA-wdX">
-                                            <rect key="frame" x="0.5" y="0.0" width="50" height="50"/>
+                                            <rect key="frame" x="3" y="2.5" width="45" height="45"/>
                                         </imageView>
                                     </subviews>
                                 </view>
                                 <constraints>
                                     <constraint firstItem="Ggp-EA-wdX" firstAttribute="centerX" secondItem="FIy-oQ-hAS" secondAttribute="centerX" id="7S1-rZ-tHA"/>
                                     <constraint firstItem="Ggp-EA-wdX" firstAttribute="centerY" secondItem="FIy-oQ-hAS" secondAttribute="centerY" id="fBI-sw-IGA"/>
-                                    <constraint firstItem="Ggp-EA-wdX" firstAttribute="height" secondItem="FIy-oQ-hAS" secondAttribute="height" id="ks4-Ro-TZY"/>
-                                    <constraint firstItem="Ggp-EA-wdX" firstAttribute="width" secondItem="FIy-oQ-hAS" secondAttribute="width" id="qxV-l6-nzR"/>
+                                    <constraint firstItem="Ggp-EA-wdX" firstAttribute="height" secondItem="FIy-oQ-hAS" secondAttribute="height" multiplier="0.9" id="ks4-Ro-TZY"/>
+                                    <constraint firstItem="Ggp-EA-wdX" firstAttribute="width" secondItem="FIy-oQ-hAS" secondAttribute="width" multiplier="0.9" id="qxV-l6-nzR"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="imageView" destination="Ggp-EA-wdX" id="1Jr-hx-Hcg"/>
@@ -112,14 +113,14 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vA3-PJ-s9F">
-                                            <rect key="frame" x="0.5" y="0.0" width="50" height="50"/>
+                                            <rect key="frame" x="3" y="2.5" width="45" height="45"/>
                                         </imageView>
                                     </subviews>
                                 </view>
                                 <constraints>
-                                    <constraint firstItem="vA3-PJ-s9F" firstAttribute="width" secondItem="oxp-69-G5i" secondAttribute="width" id="bB0-6S-rEx"/>
+                                    <constraint firstItem="vA3-PJ-s9F" firstAttribute="width" secondItem="oxp-69-G5i" secondAttribute="width" multiplier="0.9" id="bB0-6S-rEx"/>
                                     <constraint firstItem="vA3-PJ-s9F" firstAttribute="centerY" secondItem="oxp-69-G5i" secondAttribute="centerY" id="bGz-Rn-Ljf"/>
-                                    <constraint firstItem="vA3-PJ-s9F" firstAttribute="height" secondItem="oxp-69-G5i" secondAttribute="height" id="c5m-x6-ZEV"/>
+                                    <constraint firstItem="vA3-PJ-s9F" firstAttribute="height" secondItem="oxp-69-G5i" secondAttribute="height" multiplier="0.9" id="c5m-x6-ZEV"/>
                                     <constraint firstItem="vA3-PJ-s9F" firstAttribute="centerX" secondItem="oxp-69-G5i" secondAttribute="centerX" id="jcb-Tl-bKQ"/>
                                 </constraints>
                                 <connections>
@@ -127,7 +128,7 @@
                                 </connections>
                             </collectionViewCell>
                         </cells>
-                        <collectionReusableView key="sectionHeaderView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SectionHeader" id="t0V-hU-ZSD" customClass="SectionHeaderCollectionReusableView" customModule="SectionHeader">
+                        <collectionReusableView key="sectionHeaderView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SectionHeader" id="t0V-hU-ZSD" customClass="SectionHeaderCollectionReusableView" customModule="JSONPromo">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <subviews>
@@ -296,6 +297,43 @@
                 </collectionView>
             </objects>
             <point key="canvasLocation" x="2058.4000000000001" y="-495.20239880059972"/>
+        </scene>
+        <!--Table View Controller-->
+        <scene sceneID="hBi-vV-6Bz">
+            <objects>
+                <tableViewController id="Mcz-sN-bMw" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="i4O-1D-2ri">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="GG0-Vr-oBb" style="IBUITableViewCellStyleDefault" id="q2G-g3-rPr">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="q2G-g3-rPr" id="9Oj-IO-kMt">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="GG0-Vr-oBb">
+                                            <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Mcz-sN-bMw" id="0FZ-bN-Mw3"/>
+                            <outlet property="delegate" destination="Mcz-sN-bMw" id="V5R-XQ-X3B"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7k5-7P-q49" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2976" y="-496"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="7cd-7A-l0g">

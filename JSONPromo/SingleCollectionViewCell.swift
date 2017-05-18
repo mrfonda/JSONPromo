@@ -15,9 +15,18 @@ class SingleCollectionViewCell: UICollectionViewCell {
             updateUI(promo: promo)
         }
     }
+    override func awakeFromNib() {
+        let backgroundView = UIView()
+        selectedBackgroundView = backgroundView
+    }
     @IBOutlet weak var imageView: UIImageView!
     func updateUI(promo: Promo?) {
+
+        //selectedBackgroundView?.backgroundColor = UIColor.getRandomColor()
+        
         imageView.image = #imageLiteral(resourceName: "Picture")
+        imageView.layer.cornerRadius = 5
+        imageView.layer.masksToBounds = true
         layer.cornerRadius = 5
         layer.masksToBounds = true
         if let promo = promo {

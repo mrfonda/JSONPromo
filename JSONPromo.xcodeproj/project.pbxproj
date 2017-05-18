@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		7606FD001EC9D13B009C1932 /* ContentCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7606FCFF1EC9D13B009C1932 /* ContentCollectionReusableView.swift */; };
+		768B159A1ECDA3B6007DD201 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768B15991ECDA3B6007DD201 /* Helpers.swift */; };
+		768B159C1ECDAFFF007DD201 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768B159B1ECDAFFF007DD201 /* Settings.swift */; };
 		76A49EE51EC48F9400382CC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A49EE41EC48F9400382CC3 /* AppDelegate.swift */; };
 		76A49EEA1EC48F9400382CC3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76A49EE81EC48F9400382CC3 /* Main.storyboard */; };
 		76A49EEC1EC48F9400382CC3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76A49EEB1EC48F9400382CC3 /* Assets.xcassets */; };
@@ -48,6 +50,8 @@
 /* Begin PBXFileReference section */
 		3E8278F46750E6BBFF96985A /* Pods_JSONPromo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JSONPromo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7606FCFF1EC9D13B009C1932 /* ContentCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentCollectionReusableView.swift; sourceTree = "<group>"; };
+		768B15991ECDA3B6007DD201 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		768B159B1ECDAFFF007DD201 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		76A49EE11EC48F9400382CC3 /* JSONPromo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JSONPromo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		76A49EE41EC48F9400382CC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		76A49EE91EC48F9400382CC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -200,6 +204,8 @@
 			isa = PBXGroup;
 			children = (
 				76A49F261EC49D5900382CC3 /* JSONUtils.swift */,
+				768B15991ECDA3B6007DD201 /* Helpers.swift */,
+				768B159B1ECDAFFF007DD201 /* Settings.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -424,11 +430,13 @@
 			files = (
 				76A49F2B1EC582E200382CC3 /* SingleCollectionViewCell.swift in Sources */,
 				76A49F271EC49D5900382CC3 /* JSONUtils.swift in Sources */,
+				768B159C1ECDAFFF007DD201 /* Settings.swift in Sources */,
 				76A49F141EC4920C00382CC3 /* CollectionViewController.swift in Sources */,
 				76A49F321EC7644600382CC3 /* Promotions.swift in Sources */,
 				7606FD001EC9D13B009C1932 /* ContentCollectionReusableView.swift in Sources */,
 				76A49F2D1EC5AC2D00382CC3 /* HeaderCollectionViewCell.swift in Sources */,
 				76A49F341EC7654400382CC3 /* ContentPromo.swift in Sources */,
+				768B159A1ECDA3B6007DD201 /* Helpers.swift in Sources */,
 				76A49F2F1EC5C5FA00382CC3 /* SectionHeaderCollectionReusableView.swift in Sources */,
 				76A49F1D1EC493B100382CC3 /* PairCollectionViewCell.swift in Sources */,
 				76A49EE51EC48F9400382CC3 /* AppDelegate.swift in Sources */,

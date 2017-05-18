@@ -19,7 +19,15 @@ class PairCollectionViewCell: UICollectionViewCell {
             updateUI(left: promotions?.left, right: promotions?.right)
         }
     }
-    
+    override var isSelected: Bool {
+        didSet {
+            if isSelected {
+                UIView.performBubbleEffect(self)
+            } else {
+                
+            }
+        }
+    }
     
     func updateUI(left: Promo?, right: Promo?) {
     
@@ -47,6 +55,7 @@ class PairCollectionViewCell: UICollectionViewCell {
             imageRight.image = nil
         }
     }
-
-  
 }
+
+
+

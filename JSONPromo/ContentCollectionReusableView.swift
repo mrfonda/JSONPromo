@@ -16,10 +16,23 @@ class ContentCollectionViewCell: UICollectionViewCell {
     {
         didSet {
             updateUI(promo: promo)
+            selectedBackgroundView?.backgroundColor = UIColor.getRandomColor()
         }
     }
+    override var isSelected: Bool {
+        didSet {
+            if isSelected {
+                layer.goAway() // animate selection
+            } else {
+                
+            }
+        }
+    }
+    
     func updateUI(promo: ContentPromo?) {
         imageView.image = #imageLiteral(resourceName: "Picture")
+        imageView.layer.cornerRadius = 5
+        imageView.layer.masksToBounds = true
         layer.cornerRadius = 5
         layer.masksToBounds = true
         if let promo = promo {
