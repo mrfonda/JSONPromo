@@ -22,25 +22,14 @@ class CollectionViewController: UICollectionViewController  {
     
     var headerNotificationToken: NotificationToken? = nil { didSet { oldValue?.stop() } }
     var singleNotificationToken: NotificationToken? = nil { didSet { oldValue?.stop() } }
-    //var pairNotificationToken: NotificationToken? = nil { didSet { oldValue?.stop() } }
-    var contentNotificationToken: NotificationToken? = nil { didSet { oldValue?.stop() } }
-    
     var promotions: Promotions = Promotions()
-    
-    var storedOffsets = [Int: CGFloat]()
-    
+
     enum Sections : Int, CaseCountable {
-        case header = 0
-        case single = 1
-        case pair = 2
-        case content = 3
+        case header     = 0
+        case single     = 1
+        case pair       = 2
+        case content    = 3
     }
-    
-    
-    var singleItems = 0
-    var pairItems = 0
-    var contentItems = 0
-    var headerItems = 0
     
     //MARK: - Lifecycle
     
@@ -48,12 +37,13 @@ class CollectionViewController: UICollectionViewController  {
         super.viewDidLoad()
         collectionView?.autoresizesSubviews = true
         
-       self.collectionView!.register(UINib(nibName: "PairCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: pairIdentifier)
-    
+        self.collectionView!.register(UINib(nibName: "PairCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: pairIdentifier)
+        
         setupCollectionViewLayout()
         collectionView?.isPrefetchingEnabled = true
         
         // Observe Results Notifications
+        
         promotions = realm.objects(Promotions.self)[0]
         singleNotificationToken = promotions.single.registerNotification(collectionView: collectionView, section: Sections.single.rawValue)
         
@@ -67,7 +57,6 @@ class CollectionViewController: UICollectionViewController  {
     deinit {
         headerNotificationToken?.stop()
         singleNotificationToken?.stop()
-        contentNotificationToken?.stop()
     }
     //MARK: - UI
     
@@ -77,6 +66,7 @@ class CollectionViewController: UICollectionViewController  {
             realm.add(promotions!, update: true)
         }
     }
+    
     func changeSetting() {
         Settings.enambleSpring = !Settings.enambleSpring
         UIView.animate(withDuration: 1, animations: {
@@ -86,6 +76,7 @@ class CollectionViewController: UICollectionViewController  {
         }
         
     }
+    
     func deleteSelected() {
         
         if let selected = collectionView?.indexPathsForSelectedItems {
@@ -112,9 +103,7 @@ class CollectionViewController: UICollectionViewController  {
                                     }
                                 }
                             case .single:
-                                
                                 let cell = self.collectionView?.cellForItem(at: indexPath)
-                                
                                 try! self.realm.write {
                                     self.realm.delete((cell as! SingleCollectionViewCell).promo!)
                                 }
@@ -161,11 +150,12 @@ class CollectionViewController: UICollectionViewController  {
         }
     }
     
+    // CollectionView.cellForItemAt Animation
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch collectionView.restorationIdentifier ?? "" {
         case "PromotionsHeaderView":
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: singleIdentifier, for: indexPath) as! SingleCollectionViewCell
-            //cell.imageView.layer.newsAnimation()
             cell.promo = promotions.head[indexPath.row]
             return cell
         default:
@@ -175,15 +165,11 @@ class CollectionViewController: UICollectionViewController  {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HeaderCell", for: indexPath) as! HeaderCollectionViewCell
                 cell.setCollectionViewDataSourceDelegate(dataSourceDelegate: self, forRow: indexPath.row)
                 cell.promotions = promotions.head
-                //cell.collectionView?.setCollectionViewLayout(CustomFlowLayout(), animated: false)
                 cell.collectionView.isDirectionalLockEnabled = false
                 return cell
             case .single:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: singleIdentifier, for: indexPath) as! SingleCollectionViewCell
                 cell.promo = promotions.single[indexPath.row]
-                
-                //cell.imageView.layer.newsAnimation()
-                
                 return cell
             case .pair:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: pairIdentifier, for: indexPath) as! PairCollectionViewCell
@@ -193,25 +179,30 @@ class CollectionViewController: UICollectionViewController  {
                 } else {
                     cell.promotions = (promotions.pair[index], nil)
                 }
-                //cell.imageLeft.layer.newsAnimation()
-                //cell.imageRight.layer.newsAnimation()
+                
+                //Animation on cellForItemAt
+                
+                cell.imageLeft.layer.newsAnimation()
+                cell.imageRight.layer.newsAnimation()
                 return cell
             case .content:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: contentIdentifier, for: indexPath) as! ContentCollectionViewCell
                 cell.promo = promotions.content[indexPath.row]
-                //cell.imageView.layer.newsAnimation()
                 return cell
             }
             
         }
     }
+    
+    //Headers titles
+    
     override func collectionView(_ collectionView: UICollectionView,
                                  viewForSupplementaryElementOfKind kind: String,
                                  at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
             
             let sect = Sections(rawValue: indexPath.section)!
-
+            
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                              withReuseIdentifier: "SectionHeader",
                                                                              for: indexPath) as! SectionHeaderCollectionReusableView
@@ -232,11 +223,10 @@ class CollectionViewController: UICollectionViewController  {
             return headerView
         }
         return UICollectionReusableView()
-        
     }
     
     //MARK: - CollectionViewDelegate Animation
-   
+    
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         cell.alpha = 0.0
         UIView.animate(withDuration: 0.5) {
@@ -267,13 +257,9 @@ class CollectionViewController: UICollectionViewController  {
                 
                 cell?.transform = CGAffineTransform.identity
             })
-            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: [], animations: {
-                //cell?.backgroundColor = UIColor.getRandomColor()
-               // cell?.selectedBackgroundView?.backgroundColor = UIColor.getRandomColor()
-            })
         })
         cell?.selectedBackgroundView?.backgroundColor = UIColor.getRandomColor()
-
+        
     }
     
     override func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -285,7 +271,7 @@ class CollectionViewController: UICollectionViewController  {
     }
 }
 
-//MARK: - FlowLayout Delegate
+//MARK: - FlowLayout Delegate Item's size
 
 extension CollectionViewController : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -307,28 +293,24 @@ extension CollectionViewController : UICollectionViewDelegateFlowLayout {
             
         }
     }
-
+    // Setting header size and custom collectionview
     func setupCollectionViewLayout() {
         let layout = CustomFlowLayout()
         layout.headerReferenceSize = CGSize(width: 100, height: 20 )
         collectionView?.collectionViewLayout = layout
     }
-    
 }
 
-
-
-//MARK: - List extension
+//MARK: - List extension for different collectionview's batch update
 
 extension List {
     func registerNotification(collectionView: UICollectionView?, section : Int ) -> NotificationToken
     {
         return self.addNotificationBlock { [weak collectionView] changes in
             guard let collectionView = collectionView else { return }
-            switch changes {
+            switch changes
+            {
             case .initial:
-                // Results are now populated and can be accessed without blocking the UI
-                
                 UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: [UIViewAnimationOptions.preferredFramesPerSecond60, ], animations:
                     { () -> Void in
                         collectionView.reloadSections(IndexSet(integer: section))
@@ -336,7 +318,9 @@ extension List {
                 
             case .update(_, let deletions, let insertions, let modifications):
                 print(deletions, insertions, modifications,section)
-                // Query results have changed, so apply them
+                
+                //Animation
+                
                 if Settings.enambleSpring
                 {
                     UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.0, options: [], animations:
@@ -353,6 +337,7 @@ extension List {
                                     
                             }, completion: nil)
                     }, completion: { _ in })
+                //No Animation
                 } else {
                     collectionView.performBatchUpdates(
                         {
@@ -365,9 +350,8 @@ extension List {
                             
                     }, completion: nil)
                 }
-
+                
             case .error(let error):
-                // An error occurred while opening the Realm file on the background worker thread
                 fatalError("\(error)")
                 break
             }
@@ -376,9 +360,7 @@ extension List {
 }
 
 
-
-
-//MARK: - CustomFlowLayout
+//MARK: - CustomFlowLayout extension animation
 
 class CustomFlowLayout : UICollectionViewFlowLayout {
     //Initial zoom in
@@ -386,10 +368,10 @@ class CustomFlowLayout : UICollectionViewFlowLayout {
         let attributes = super.initialLayoutAttributesForAppearingItem(at: itemIndexPath)
         
         attributes?.alpha = 0.0
-            attributes?.transform = CGAffineTransform(
-                scaleX: 0.01,
-                y: 0.01
-            )
+        attributes?.transform = CGAffineTransform(
+            scaleX: 0.01,
+            y: 0.01
+        )
         return attributes
     }
     
